@@ -38,9 +38,16 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="min-h-screen antialiased">
+        {/* Linear-style aurora mesh gradient background */}
+        <div className="aurora-bg">
+          <div className="aurora-orb aurora-orb-1" />
+          <div className="aurora-orb aurora-orb-2" />
+        </div>
+        <div className="noise-overlay" />
+
         <WalletProvider>
           <Navbar />
-          <main className="pt-20">{children}</main>
+          <main className="pt-20 relative z-0">{children}</main>
           <Toaster
             theme="dark"
             position="bottom-right"

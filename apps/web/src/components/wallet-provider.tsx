@@ -132,19 +132,24 @@ export function ConnectButton() {
 
       {showModal && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-md"
           onClick={() => setShowModal(false)}
         >
           <div
-            className="glass p-6 w-full max-w-sm mx-4 space-y-4"
+            className="wallet-modal-glass p-8 w-full max-w-sm mx-4 space-y-5"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-lg font-semibold text-white">
-              Connect Wallet
-            </h3>
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-white mb-1">
+                Connect Wallet
+              </h3>
+              <p className="text-white/40 text-sm">
+                Select a wallet to continue
+              </p>
+            </div>
 
             {availableWallets.length === 0 ? (
-              <p className="text-white/50 text-sm">
+              <p className="text-white/50 text-sm text-center py-4">
                 No Solana wallets detected. Please install Phantom, Backpack, or
                 Solflare.
               </p>
@@ -157,7 +162,7 @@ export function ConnectButton() {
                       await connect(w);
                       setShowModal(false);
                     }}
-                    className="w-full flex items-center gap-3 p-3 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] transition-all"
+                    className="w-full flex items-center gap-3 p-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] hover:border-indigo-500/30 transition-all duration-200"
                   >
                     {w.icon && (
                       <img
@@ -167,7 +172,7 @@ export function ConnectButton() {
                             : (w.icon as any)?.[0] || ""
                         }
                         alt={w.name}
-                        className="w-8 h-8 rounded-lg"
+                        className="w-9 h-9 rounded-xl"
                       />
                     )}
                     <span className="text-white font-medium">{w.name}</span>
@@ -178,7 +183,7 @@ export function ConnectButton() {
 
             <button
               onClick={() => setShowModal(false)}
-              className="w-full btn-secondary text-sm"
+              className="w-full text-white/50 hover:text-white/80 text-sm py-2 transition-colors"
             >
               Cancel
             </button>

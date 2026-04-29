@@ -68,27 +68,27 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="relative overflow-hidden px-4 pt-24 pb-20 sm:pt-32 sm:pb-28">
-        {/* Gradient bg */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-white/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-white/5 rounded-full blur-[100px]" />
-        </div>
-
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black text-white mb-6 leading-tight">
+      <section className="relative overflow-hidden px-4 pt-32 pb-24 sm:pt-44 sm:pb-36 min-h-[90vh] flex items-center">
+        <div className="max-w-7xl mx-auto text-center w-full">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-white/60 text-sm font-medium mb-8">
+            <div className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
+            Built with Umbra SDK on Solana
+          </div>
+          <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black text-white mb-8 leading-[0.95] tracking-tight">
             Private
             <br />
             <span className="gradient-text">Payroll</span>
           </h1>
-          <p className="text-xl sm:text-2xl text-white/70 mb-12 max-w-2xl mx-auto font-light">
-            Confidential salaries. Unlinkable transfers. Optional compliance.
+          <p className="text-lg sm:text-xl text-white/50 mb-14 max-w-xl mx-auto font-light leading-relaxed">
+            Confidential salaries. Unlinkable transfers.
+            <br className="hidden sm:block" />
+            Optional compliance. Zero mocks.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/employer" className="btn-primary">
+            <Link href="/employer" className="btn-primary text-base">
               Start Paying
             </Link>
-            <Link href="/employee" className="btn-secondary">
+            <Link href="/employee" className="btn-secondary text-base">
               Claim Salary
             </Link>
           </div>
@@ -103,8 +103,8 @@ export default function Home() {
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="glass-card-hover p-10 text-center">
-              <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Shield className="w-8 h-8 text-white" />
+              <div className="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 ring-1 ring-indigo-500/20">
+                <Shield className="w-8 h-8 text-indigo-300" />
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">Confidential</h3>
               <p className="text-white/60 leading-relaxed">
@@ -112,8 +112,8 @@ export default function Home() {
               </p>
             </div>
             <div className="glass-card-hover p-10 text-center">
-              <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Briefcase className="w-8 h-8 text-white" />
+              <div className="w-16 h-16 bg-violet-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 ring-1 ring-violet-500/20">
+                <Briefcase className="w-8 h-8 text-violet-300" />
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">Unlinkable</h3>
               <p className="text-white/60 leading-relaxed">
@@ -121,8 +121,8 @@ export default function Home() {
               </p>
             </div>
             <div className="glass-card-hover p-10 text-center">
-              <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <FileSearch className="w-8 h-8 text-white" />
+              <div className="w-16 h-16 bg-purple-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 ring-1 ring-purple-500/20">
+                <FileSearch className="w-8 h-8 text-purple-300" />
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">Compliant</h3>
               <p className="text-white/60 leading-relaxed">
