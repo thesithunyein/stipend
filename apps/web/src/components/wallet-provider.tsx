@@ -108,11 +108,11 @@ export function ConnectButton() {
     const addr = account.address;
     const short = addr.slice(0, 4) + "..." + addr.slice(-4);
     return (
-      <div className="flex items-center gap-3">
-        <span className="text-sm text-white/60 font-mono">{short}</span>
+      <div className="flex items-center gap-2">
+        <span className="text-xs text-[#6B6F76] font-mono">{short}</span>
         <button
           onClick={disconnect}
-          className="btn-secondary text-sm !px-4 !py-1.5"
+          className="text-xs text-[#6B6F76] hover:text-[#B5B5B5] transition-colors duration-150"
         >
           Disconnect
         </button>
@@ -132,29 +132,29 @@ export function ConnectButton() {
 
       {showModal && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-md"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60"
           onClick={() => setShowModal(false)}
         >
           <div
-            className="wallet-modal-glass p-8 w-full max-w-sm mx-4 space-y-5"
+            className="wallet-modal-glass p-6 w-full max-w-sm mx-4 space-y-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="text-center">
-              <h3 className="text-xl font-bold text-white mb-1">
-                Connect Wallet
+            <div>
+              <h3 className="text-sm font-medium text-[#F5F5F5]">
+                Connect wallet
               </h3>
-              <p className="text-white/40 text-sm">
+              <p className="text-xs text-[#6B6F76] mt-1">
                 Select a wallet to continue
               </p>
             </div>
 
             {availableWallets.length === 0 ? (
-              <p className="text-white/50 text-sm text-center py-4">
-                No Solana wallets detected. Please install Phantom, Backpack, or
+              <p className="text-sm text-[#6B6F76] py-4">
+                No Solana wallets detected. Install Phantom, Backpack, or
                 Solflare.
               </p>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-1">
                 {availableWallets.map((w) => (
                   <button
                     key={w.name}
@@ -162,7 +162,7 @@ export function ConnectButton() {
                       await connect(w);
                       setShowModal(false);
                     }}
-                    className="w-full flex items-center gap-3 p-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] hover:border-indigo-500/30 transition-all duration-200"
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md bg-transparent hover:bg-[#1E1E20] border border-transparent hover:border-[#2A2A2E] transition-colors duration-150"
                   >
                     {w.icon && (
                       <img
@@ -172,10 +172,10 @@ export function ConnectButton() {
                             : (w.icon as any)?.[0] || ""
                         }
                         alt={w.name}
-                        className="w-9 h-9 rounded-xl"
+                        className="w-7 h-7 rounded-md"
                       />
                     )}
-                    <span className="text-white font-medium">{w.name}</span>
+                    <span className="text-sm text-[#B5B5B5]">{w.name}</span>
                   </button>
                 ))}
               </div>
@@ -183,7 +183,7 @@ export function ConnectButton() {
 
             <button
               onClick={() => setShowModal(false)}
-              className="w-full text-white/50 hover:text-white/80 text-sm py-2 transition-colors"
+              className="w-full text-xs text-[#6B6F76] hover:text-[#B5B5B5] py-1.5 transition-colors duration-150"
             >
               Cancel
             </button>

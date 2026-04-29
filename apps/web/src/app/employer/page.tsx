@@ -164,9 +164,9 @@ export default function EmployerPage() {
     return (
       <div className="min-h-[80vh] flex items-center justify-center px-4">
         <div className="glass-card max-w-md w-full text-center space-y-4">
-          <Users className="w-12 h-12 text-white/60 mx-auto" />
-          <h2 className="text-xl font-bold text-white">Employer Dashboard</h2>
-          <p className="text-white/40">
+          <Users className="w-12 h-12 text-[#6B6F76] mx-auto" />
+          <h2 className="text-xl font-semibold text-[#F5F5F5]">Employer Dashboard</h2>
+          <p className="text-[#6B6F76]">
             Connect your wallet to manage payroll.
           </p>
         </div>
@@ -184,11 +184,11 @@ export default function EmployerPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-            <Users className="w-6 h-6 text-white/60" />
+          <h1 className="text-lg font-semibold text-[#F5F5F5] flex items-center gap-2">
+            <Users className="w-5 h-5 text-[#6B6F76]" />
             Employer Dashboard
           </h1>
-          <p className="text-white/40 text-sm mt-1">
+          <p className="text-[#6B6F76] text-sm mt-1">
             Manage employees and run confidential payroll
           </p>
         </div>
@@ -234,12 +234,12 @@ export default function EmployerPage() {
           },
         ].map((stat) => (
           <div key={stat.label} className="glass-card flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
-              <stat.icon className="w-5 h-5 text-white/60" />
+            <div className="w-9 h-9 rounded-lg bg-[#1E1E20] flex items-center justify-center shrink-0">
+              <stat.icon className="w-4 h-4 text-[#6B6F76]" />
             </div>
             <div>
-              <div className="text-xl font-bold text-white">{stat.value}</div>
-              <div className="text-xs text-white/40">{stat.label}</div>
+              <div className="text-lg font-semibold text-[#F5F5F5]">{stat.value}</div>
+              <div className="text-xs text-[#6B6F76]">{stat.label}</div>
             </div>
           </div>
         ))}
@@ -247,8 +247,8 @@ export default function EmployerPage() {
 
       {/* Add Employee */}
       <div className="glass-card space-y-4">
-        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-          <Plus className="w-5 h-5 text-white/60" />
+        <h3 className="text-sm font-medium text-[#F5F5F5] flex items-center gap-2">
+          <Plus className="w-4 h-4 text-[#6B6F76]" />
           Add Employee
         </h3>
         <div className="grid sm:grid-cols-4 gap-3">
@@ -285,7 +285,7 @@ export default function EmployerPage() {
       {store.employees.length > 0 && (
         <div className="glass-card space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-white">Employees</h3>
+            <h3 className="text-sm font-medium text-[#F5F5F5]">Employees</h3>
             <button
               onClick={handleRunPayroll}
               disabled={store.isRunning}
@@ -303,24 +303,24 @@ export default function EmployerPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-white/40 border-b border-white/[0.06]">
-                  <th className="pb-3 font-medium">Name</th>
-                  <th className="pb-3 font-medium">Address</th>
-                  <th className="pb-3 font-medium text-right">Salary</th>
-                  <th className="pb-3 font-medium text-right">Actions</th>
+                <tr className="text-left text-[#6B6F76] border-b border-[#1E1E20]">
+                  <th className="pb-3 font-medium text-xs">Name</th>
+                  <th className="pb-3 font-medium text-xs">Address</th>
+                  <th className="pb-3 font-medium text-xs text-right">Salary</th>
+                  <th className="pb-3 font-medium text-xs text-right">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {store.employees.map((emp) => (
                   <tr
                     key={emp.id}
-                    className="border-b border-white/[0.04] hover:bg-white/[0.02]"
+                    className="border-b border-[#1E1E20] hover:bg-[#161618]"
                   >
-                    <td className="py-3 text-white font-medium">{emp.name}</td>
-                    <td className="py-3 text-white/60 font-mono text-xs">
+                    <td className="py-3 text-[#F5F5F5] text-sm">{emp.name}</td>
+                    <td className="py-3 text-[#6B6F76] font-mono text-xs">
                       {emp.address.slice(0, 8)}...{emp.address.slice(-6)}
                     </td>
-                    <td className="py-3 text-right text-white">
+                    <td className="py-3 text-right text-[#F5F5F5] text-sm">
                       ${(Number(emp.salary) / 1e6).toFixed(2)}
                     </td>
                     <td className="py-3 text-right">
@@ -342,11 +342,11 @@ export default function EmployerPage() {
       {/* Progress Log */}
       {store.progressLog.length > 0 && (
         <div className="glass-card space-y-3">
-          <h3 className="text-lg font-semibold text-white">Payroll Log</h3>
-          <div className="bg-black/30 rounded-xl p-4 font-mono text-xs space-y-1 max-h-48 overflow-y-auto">
+          <h3 className="text-sm font-medium text-[#F5F5F5]">Payroll Log</h3>
+          <div className="bg-[#0A0A0B] border border-[#1E1E20] rounded-lg p-4 font-mono text-xs space-y-1 max-h-48 overflow-y-auto">
             {store.progressLog.map((msg, i) => (
-              <div key={i} className="text-white/60">
-                <span className="text-white/60 mr-2">
+              <div key={i} className="text-[#6B6F76]">
+                <span className="text-[#6B6F76] mr-2">
                   [{new Date().toLocaleTimeString()}]
                 </span>
                 {msg}
@@ -359,39 +359,39 @@ export default function EmployerPage() {
       {/* Payroll History */}
       {store.payrollRuns.length > 0 && (
         <div className="glass-card space-y-4">
-          <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-            <ScrollText className="w-5 h-5 text-white/60" />
+          <h3 className="text-sm font-medium text-[#F5F5F5] flex items-center gap-2">
+            <ScrollText className="w-4 h-4 text-[#6B6F76]" />
             Payroll History
           </h3>
           <div className="space-y-3">
             {store.payrollRuns.map((run) => (
               <div
                 key={run.runId}
-                className="bg-white/[0.02] rounded-xl p-4 border border-white/[0.04]"
+                className="bg-[#0A0A0B] rounded-lg p-4 border border-[#1E1E20]"
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className="font-mono text-sm text-white/80">
+                  <span className="font-mono text-sm text-[#6B6F76]">
                     {run.runId}
                   </span>
-                  <span className="text-xs text-white/40">
+                  <span className="text-xs text-[#6B6F76]">
                     {new Date(run.timestamp).toLocaleDateString()}
                   </span>
                 </div>
                 <div className="grid grid-cols-3 gap-4 text-sm">
                   <div>
-                    <div className="text-white/40 text-xs">Employees</div>
-                    <div className="text-white font-medium">
+                    <div className="text-[#6B6F76] text-xs">Employees</div>
+                    <div className="text-[#F5F5F5] text-sm font-medium">
                       {run.employees.length}
                     </div>
                   </div>
                   <div>
-                    <div className="text-white/40 text-xs">Total Paid</div>
-                    <div className="text-white font-medium">
+                    <div className="text-[#6B6F76] text-xs">Total Paid</div>
+                    <div className="text-[#F5F5F5] text-sm font-medium">
                       ${(Number(run.totalPaid) / 1e6).toFixed(2)}
                     </div>
                   </div>
                   <div>
-                    <div className="text-white/40 text-xs">Status</div>
+                    <div className="text-[#6B6F76] text-xs">Status</div>
                     <div className="flex items-center gap-1">
                       {run.employees.every((e) => e.status === "success") ? (
                         <>
@@ -419,11 +419,11 @@ export default function EmployerPage() {
 
       {/* Export Viewing Key */}
       <div className="glass-card space-y-4">
-        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-          <Key className="w-5 h-5 text-white/60" />
-          Export Viewing Key for Compliance
+        <h3 className="text-sm font-medium text-[#F5F5F5] flex items-center gap-2">
+          <Key className="w-4 h-4 text-[#6B6F76]" />
+          Export Viewing Key
         </h3>
-        <p className="text-white/40 text-sm">
+        <p className="text-[#6B6F76] text-sm">
           Share scoped viewing keys with auditors so they can verify payroll
           without seeing anything outside the defined scope.
         </p>

@@ -38,24 +38,19 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="min-h-screen antialiased">
-        {/* Linear-style aurora mesh gradient background */}
-        <div className="aurora-bg">
-          <div className="aurora-orb aurora-orb-1" />
-          <div className="aurora-orb aurora-orb-2" />
-        </div>
-        <div className="noise-overlay" />
-
+        <div className="linear-glow" />
         <WalletProvider>
           <Navbar />
-          <main className="pt-20 relative z-0">{children}</main>
+          <main className="pt-16">{children}</main>
           <Toaster
             theme="dark"
             position="bottom-right"
             toastOptions={{
               style: {
-                background: "#18181b",
-                border: "1px solid rgba(255,255,255,0.1)",
-                color: "#ffffff",
+                background: "#161618",
+                border: "1px solid #2A2A2E",
+                color: "#F5F5F5",
+                fontSize: "0.875rem",
               },
             }}
           />

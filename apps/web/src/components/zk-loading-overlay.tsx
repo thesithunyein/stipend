@@ -35,50 +35,46 @@ export function ZkLoadingOverlay({ isVisible, label }: ZkLoadingOverlayProps) {
   const StepIcon = currentStep.icon;
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 backdrop-blur-md">
-      <div className="glass-card max-w-sm w-full mx-4 text-center space-y-6 p-8">
-        {/* Animated spinner ring */}
-        <div className="relative mx-auto w-20 h-20">
-          <div className="absolute inset-0 rounded-full border-2 border-white/10" />
-          <div className="absolute inset-0 rounded-full border-2 border-white/80 border-t-transparent animate-spin" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <StepIcon className="w-8 h-8 text-white/80" />
-          </div>
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60">
+      <div className="bg-[#161618] border border-[#2A2A2E] rounded-lg max-w-sm w-full mx-4 p-6 space-y-5">
+        {/* Spinner */}
+        <div className="relative mx-auto w-10 h-10">
+          <div className="absolute inset-0 rounded-full border-2 border-[#1E1E20]" />
+          <div className="absolute inset-0 rounded-full border-2 border-[#5E6AD2] border-t-transparent animate-spin" />
         </div>
 
         {/* Label */}
-        <div>
-          <h3 className="text-lg font-semibold text-white">{label}</h3>
-          <p className="text-white/40 text-sm mt-1">
+        <div className="text-center">
+          <h3 className="text-sm font-medium text-[#F5F5F5]">{label}</h3>
+          <p className="text-xs text-[#6B6F76] mt-1">
             This may take 5–15 seconds
           </p>
         </div>
 
         {/* Progress steps */}
-        <div className="space-y-2 text-left">
+        <div className="space-y-2">
           {PROGRESS_STEPS.map((step, i) => {
-            const StepI = step.icon;
             const isActive = i === stepIndex;
             const isDone = i < stepIndex;
             return (
               <div
                 key={i}
-                className={`flex items-center gap-2 text-sm transition-all duration-300 ${
+                className={`flex items-center gap-2.5 text-xs transition-colors duration-200 ${
                   isActive
-                    ? "text-white"
+                    ? "text-[#F5F5F5]"
                     : isDone
-                    ? "text-white/40"
-                    : "text-white/20"
+                    ? "text-[#6B6F76]"
+                    : "text-[#2A2A2E]"
                 }`}
               >
                 {isActive ? (
-                  <Loader2 className="w-4 h-4 animate-spin shrink-0" />
+                  <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0 text-[#5E6AD2]" />
                 ) : isDone ? (
-                  <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center shrink-0">
-                    <div className="w-1.5 h-1.5 rounded-full bg-white/60" />
-                  </div>
+                  <svg className="w-3.5 h-3.5 shrink-0 text-[#4ADE80]" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M3 8.5l3.5 3.5L13 4.5" />
+                  </svg>
                 ) : (
-                  <StepI className="w-4 h-4 shrink-0" />
+                  <div className="w-3.5 h-3.5 rounded-full border border-[#2A2A2E] shrink-0" />
                 )}
                 <span>{step.text}</span>
               </div>

@@ -117,19 +117,19 @@ export default function AuditorPage() {
     <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-          <FileSearch className="w-6 h-6 text-white/60" />
+        <h1 className="text-lg font-semibold text-[#F5F5F5] flex items-center gap-2">
+          <FileSearch className="w-5 h-5 text-[#6B6F76]" />
           Auditor Dashboard
         </h1>
-        <p className="text-white/40 text-sm mt-1">
+        <p className="text-[#6B6F76] text-sm mt-1">
           Verify payroll manifests against on-chain data. No wallet needed.
         </p>
       </div>
 
       {/* Upload / Paste */}
       <div className="glass-card space-y-4">
-        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-          <Upload className="w-5 h-5 text-white/60" />
+        <h3 className="text-sm font-medium text-[#F5F5F5] flex items-center gap-2">
+          <Upload className="w-4 h-4 text-[#6B6F76]" />
           Load Audit Package
         </h3>
 
@@ -144,7 +144,7 @@ export default function AuditorPage() {
               onChange={handleFileUpload}
             />
           </label>
-          <span className="text-white/20 self-center text-sm">or</span>
+          <span className="text-[#2A2A2E] self-center text-sm">or</span>
           <button
             onClick={handlePasteJson}
             disabled={!auditJson.trim()}
@@ -166,47 +166,47 @@ export default function AuditorPage() {
       {manifest && (
         <div className="glass-card space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-white">
+            <h3 className="text-sm font-medium text-[#F5F5F5]">
               Manifest Preview
             </h3>
-            <span className="text-xs font-mono text-white/80">
+            <span className="text-xs font-mono text-[#B5B5B5]">
               {manifest.runId}
             </span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
             <div>
-              <div className="text-white/40 text-xs">Employer</div>
-              <div className="text-white font-mono text-xs">
+              <div className="text-[#6B6F76] text-xs">Employer</div>
+              <div className="text-[#F5F5F5] font-mono text-xs">
                 {manifest.employerAddress.slice(0, 8)}...
               </div>
             </div>
             <div>
-              <div className="text-white/40 text-xs">Date</div>
-              <div className="text-white">
+              <div className="text-[#6B6F76] text-xs">Date</div>
+              <div className="text-[#F5F5F5] text-sm">
                 {new Date(manifest.timestamp).toLocaleDateString()}
               </div>
             </div>
             <div>
-              <div className="text-white/40 text-xs">Employees</div>
-              <div className="text-white">{manifest.entries.length}</div>
+              <div className="text-[#6B6F76] text-xs">Employees</div>
+              <div className="text-[#F5F5F5] text-sm">{manifest.entries.length}</div>
             </div>
             <div>
-              <div className="text-white/40 text-xs">Total</div>
-              <div className="text-white font-medium">
+              <div className="text-[#6B6F76] text-xs">Total</div>
+              <div className="text-[#F5F5F5] text-sm font-medium">
                 ${(Number(manifest.totalPaid) / 1e6).toFixed(2)}
               </div>
             </div>
           </div>
 
           {viewingKeyHex && (
-            <div className="flex items-center gap-2 p-3 rounded-xl bg-white/10 border border-white/10">
-              <Key className="w-4 h-4 text-white/60 shrink-0" />
+            <div className="flex items-center gap-2 p-3 rounded-lg bg-[#111113] border border-[#1E1E20]">
+              <Key className="w-4 h-4 text-[#6B6F76] shrink-0" />
               <div className="text-xs">
-                <span className="text-white/80 font-medium">
+                <span className="text-[#B5B5B5] font-medium">
                   Viewing Key Included
                 </span>
-                <span className="text-white/40 ml-2 font-mono">
+                <span className="text-[#6B6F76] ml-2 font-mono">
                   {viewingKeyHex.slice(0, 16)}...
                 </span>
               </div>
@@ -232,7 +232,7 @@ export default function AuditorPage() {
       {isVerified && (
         <div className="glass-card space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-white">
+            <h3 className="text-sm font-medium text-[#F5F5F5]">
               Verification Report
             </h3>
             <button
@@ -246,25 +246,25 @@ export default function AuditorPage() {
 
           {/* Summary */}
           <div className="grid grid-cols-3 gap-4">
-            <div className="bg-white/[0.02] rounded-xl p-4 text-center border border-white/[0.04]">
-              <div className="text-2xl font-bold text-white">
+            <div className="bg-[#111113] rounded-lg p-4 text-center border border-[#1E1E20]">
+              <div className="text-xl font-semibold text-[#F5F5F5]">
                 {verifications.length}
               </div>
-              <div className="text-xs text-white/40">Total Entries</div>
+              <div className="text-xs text-[#6B6F76]">Total Entries</div>
             </div>
-            <div className="bg-white/10 rounded-xl p-4 text-center border border-white/10">
-              <div className="text-2xl font-bold text-emerald-400">
+            <div className="bg-[#111113] rounded-lg p-4 text-center border border-[#1E1E20]">
+              <div className="text-xl font-semibold text-[#4ADE80]">
                 {verifiedCount}
               </div>
-              <div className="text-xs text-white/40">
+              <div className="text-xs text-[#6B6F76]">
                 On-chain Verified
               </div>
             </div>
-            <div className="bg-white/[0.02] rounded-xl p-4 text-center border border-white/[0.04]">
-              <div className="text-2xl font-bold text-white">
+            <div className="bg-[#111113] rounded-lg p-4 text-center border border-[#1E1E20]">
+              <div className="text-xl font-semibold text-[#F5F5F5]">
                 ${(totalAmount / 1e6).toFixed(2)}
               </div>
-              <div className="text-xs text-white/40">Total Amount</div>
+              <div className="text-xs text-[#6B6F76]">Total Amount</div>
             </div>
           </div>
 
@@ -272,28 +272,28 @@ export default function AuditorPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-white/40 border-b border-white/[0.06]">
-                  <th className="pb-3 font-medium">Employee</th>
-                  <th className="pb-3 font-medium">Address</th>
-                  <th className="pb-3 font-medium text-right">Amount</th>
-                  <th className="pb-3 font-medium text-center">Status</th>
-                  <th className="pb-3 font-medium text-right">Explorer</th>
+                <tr className="text-left text-[#6B6F76] border-b border-[#1E1E20]">
+                  <th className="pb-3 font-medium text-xs">Employee</th>
+                  <th className="pb-3 font-medium text-xs">Address</th>
+                  <th className="pb-3 font-medium text-xs text-right">Amount</th>
+                  <th className="pb-3 font-medium text-xs text-center">Status</th>
+                  <th className="pb-3 font-medium text-xs text-right">Explorer</th>
                 </tr>
               </thead>
               <tbody>
                 {verifications.map((v, i) => (
                   <tr
                     key={i}
-                    className="border-b border-white/[0.04] hover:bg-white/[0.02]"
+                    className="border-b border-[#1E1E20] hover:bg-[#161618]"
                   >
-                    <td className="py-3 text-white font-medium">
+                    <td className="py-3 text-[#F5F5F5] text-sm">
                       {v.entry.name}
                     </td>
-                    <td className="py-3 text-white/60 font-mono text-xs">
+                    <td className="py-3 text-[#6B6F76] font-mono text-xs">
                       {v.entry.address.slice(0, 6)}...
                       {v.entry.address.slice(-4)}
                     </td>
-                    <td className="py-3 text-right text-white">
+                    <td className="py-3 text-right text-[#F5F5F5] text-sm">
                       ${(Number(v.entry.amount) / 1e6).toFixed(2)}
                     </td>
                     <td className="py-3 text-center">
@@ -314,7 +314,7 @@ export default function AuditorPage() {
                         href={v.explorerUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-white/60 hover:text-white/80 transition-colors"
+                        className="text-[#6B6F76] hover:text-[#B5B5B5] transition-colors duration-150"
                       >
                         <ExternalLink className="w-4 h-4 inline" />
                       </a>

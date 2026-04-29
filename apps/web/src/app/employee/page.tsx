@@ -112,9 +112,9 @@ export default function EmployeePage() {
     return (
       <div className="min-h-[80vh] flex items-center justify-center px-4">
         <div className="glass-card max-w-md w-full text-center space-y-4">
-          <Wallet className="w-12 h-12 text-white/60 mx-auto" />
-          <h2 className="text-xl font-bold text-white">Employee Dashboard</h2>
-          <p className="text-white/40">
+          <Wallet className="w-12 h-12 text-[#6B6F76] mx-auto" />
+          <h2 className="text-xl font-semibold text-[#F5F5F5]">Employee Dashboard</h2>
+          <p className="text-[#6B6F76]">
             Connect your wallet to receive and claim payments.
           </p>
         </div>
@@ -135,11 +135,11 @@ export default function EmployeePage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-            <Wallet className="w-6 h-6 text-white/60" />
+          <h1 className="text-lg font-semibold text-[#F5F5F5] flex items-center gap-2">
+            <Wallet className="w-5 h-5 text-[#6B6F76]" />
             Employee Dashboard
           </h1>
-          <p className="text-white/40 text-sm mt-1">
+          <p className="text-[#6B6F76] text-sm mt-1">
             Scan, claim, and withdraw your private payments
           </p>
         </div>
@@ -163,28 +163,28 @@ export default function EmployeePage() {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
         <div className="glass-card text-center">
-          <div className="text-3xl font-bold text-white">
+          <div className="text-2xl font-semibold text-[#F5F5F5]">
             {store.claimableUtxos.length}
           </div>
-          <div className="text-xs text-white/40 mt-1">Pending Payments</div>
+          <div className="text-xs text-[#6B6F76] mt-1">Pending Payments</div>
         </div>
         <div className="glass-card text-center">
-          <div className="text-3xl font-bold text-white/60">
+          <div className="text-2xl font-semibold text-[#B5B5B5]">
             {claimedCount}
           </div>
-          <div className="text-xs text-white/40 mt-1">Claimed</div>
+          <div className="text-xs text-[#6B6F76] mt-1">Claimed</div>
         </div>
         <div className="glass-card text-center">
-          <div className="text-3xl font-bold text-white/60">
-            <ShieldCheck className="w-8 h-8 mx-auto" />
+          <div className="text-[#B5B5B5]">
+            <ShieldCheck className="w-7 h-7 mx-auto" />
           </div>
-          <div className="text-xs text-white/40 mt-1">Encrypted Balance</div>
+          <div className="text-xs text-[#6B6F76] mt-1">Encrypted Balance</div>
         </div>
       </div>
 
       {/* Scan & Claim */}
       <div className="glass-card space-y-4">
-        <h3 className="text-lg font-semibold text-white">Incoming Payments</h3>
+        <h3 className="text-sm font-medium text-[#F5F5F5]">Incoming Payments</h3>
 
         <div className="flex flex-col sm:flex-row gap-3">
           <button
@@ -204,7 +204,7 @@ export default function EmployeePage() {
             <button
               onClick={handleClaim}
               disabled={store.isClaiming}
-              className="bg-white/10 hover:bg-white/20 text-white border border-white/10 font-medium px-6 py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 flex-1"
+              className="btn-secondary flex items-center justify-center gap-2 flex-1"
             >
               {store.isClaiming ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -224,29 +224,29 @@ export default function EmployeePage() {
             {store.claimableUtxos.map((utxo, i) => (
               <div
                 key={i}
-                className="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]"
+                className="flex items-center justify-between p-3 rounded-lg bg-[#111113] border border-[#1E1E20]"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
-                    <Inbox className="w-4 h-4 text-white/60" />
+                  <div className="w-8 h-8 rounded-lg bg-[#1E1E20] flex items-center justify-center">
+                    <Inbox className="w-4 h-4 text-[#6B6F76]" />
                   </div>
                   <div>
-                    <div className="text-sm text-white font-medium">
+                    <div className="text-sm text-[#F5F5F5]">
                       Payment #{i + 1}
                     </div>
-                    <div className="text-xs text-white/40 font-mono">
+                    <div className="text-xs text-[#6B6F76] font-mono">
                       {utxo.amount
                         ? `${(Number(utxo.amount) / 1e6).toFixed(2)} tokens`
                         : "Encrypted amount"}
                     </div>
                   </div>
                 </div>
-                <CheckCircle2 className="w-4 h-4 text-white/40" />
+                <CheckCircle2 className="w-4 h-4 text-[#6B6F76]" />
               </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-8 text-white/30">
+          <div className="text-center py-8 text-[#2A2A2E]">
             <Inbox className="w-10 h-10 mx-auto mb-2 opacity-50" />
             <p className="text-sm">
               No pending payments. Hit &ldquo;Scan&rdquo; to check.
@@ -257,11 +257,11 @@ export default function EmployeePage() {
 
       {/* Withdraw */}
       <div className="glass-card space-y-4">
-        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-          <Download className="w-5 h-5 text-white/60" />
+        <h3 className="text-sm font-medium text-[#F5F5F5] flex items-center gap-2">
+          <Download className="w-4 h-4 text-[#6B6F76]" />
           Withdraw to Public Wallet
         </h3>
-        <p className="text-white/40 text-sm">
+        <p className="text-[#6B6F76] text-sm">
           Move tokens from your encrypted balance back to your public wallet.
         </p>
         <div className="flex gap-3">

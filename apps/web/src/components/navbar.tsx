@@ -2,44 +2,40 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Shield, Briefcase, User, FileSearch } from "lucide-react";
 import { ConnectButton } from "./wallet-provider";
 
 export function Navbar() {
   const pathname = usePathname();
 
+  const links = [
+    { href: "/employer", label: "Employer" },
+    { href: "/employee", label: "Employee" },
+    { href: "/auditor", label: "Auditor" },
+  ];
+
   return (
     <nav className="navbar-blur fixed top-0 left-0 right-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white rounded-2xl flex items-center justify-center shadow-lg">
-              <svg viewBox="0 0 64 64" className="w-6 h-6" xmlns="http://www.w3.org/2000/svg">
-                <rect width="64" height="64" rx="14" fill="#000"/>
-                <text x="32" y="46" fontFamily="system-ui,-apple-system,sans-serif" fontWeight="900" fontSize="44" textAnchor="middle" fill="#fff">$</text>
-                <rect x="12" y="29" width="40" height="6" rx="3" fill="#fff"/>
-              </svg>
-            </div>
-            <div>
-              <span className="text-xl font-black text-white">Stipend</span>
-              <div className="text-xs text-white/60 font-medium">Private Payroll</div>
-            </div>
-          </div>
+      <div className="max-w-[1200px] mx-auto px-6">
+        <div className="flex justify-between items-center h-14">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2">
+            <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="24" height="24" rx="6" fill="#5E6AD2"/>
+              <text x="12" y="17" fontFamily="Inter,system-ui,sans-serif" fontWeight="700" fontSize="14" textAnchor="middle" fill="#fff">$</text>
+            </svg>
+            <span className="text-[#F5F5F5] font-semibold text-sm tracking-tight">Stipend</span>
+          </Link>
 
-          <div className="hidden md:flex items-center space-x-1">
-            {[
-              { href: "/", label: "Home" },
-              { href: "/employer", label: "Employer" },
-              { href: "/employee", label: "Employee" },
-              { href: "/auditor", label: "Auditor" },
-            ].map((link) => (
+          {/* Nav links */}
+          <div className="hidden md:flex items-center gap-1">
+            {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-4 py-2 rounded-xl transition-all duration-200 font-medium ${
+                className={`px-3 py-1.5 rounded-md text-sm transition-colors duration-150 ${
                   pathname === link.href
-                    ? "text-white bg-white/10"
-                    : "text-white/70 hover:text-white hover:bg-white/10"
+                    ? "text-[#F5F5F5]"
+                    : "text-[#6B6F76] hover:text-[#B5B5B5]"
                 }`}
               >
                 {link.label}
@@ -47,7 +43,8 @@ export function Navbar() {
             ))}
           </div>
 
-          <div className="flex items-center gap-4">
+          {/* Right side */}
+          <div className="flex items-center gap-3">
             <ConnectButton />
           </div>
         </div>
