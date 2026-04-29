@@ -4,7 +4,7 @@
   "features": {
     "ghcr.io/devcontainers/features/node:1": { "version": "22" }
   },
-  "postCreateCommand": "npm i -g pnpm@9 && pnpm install && sh scripts/setup-devnet.sh",
+  "postCreateCommand": "bash scripts/setup-codespace.sh",
   "forwardPorts": [3000],
   "customizations": {
     "vscode": {

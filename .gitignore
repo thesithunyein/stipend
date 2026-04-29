@@ -2,9 +2,11 @@ node_modules/
 .next/
 .env
 .env.local
+.env*.local
 dist/
 .turbo/
 *.tsbuildinfo
 .DS_Store
 .vercel
 out/
+keys/

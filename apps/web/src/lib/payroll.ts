@@ -7,8 +7,8 @@ import {
   getUmbraRelayer,
 } from "@umbra-privacy/sdk";
 import {
-  getCreateReceiverClaimableUtxoFromPublicBalanceProver,
-  getClaimReceiverClaimableUtxoIntoEncryptedBalanceProver,
+  getPublicBalanceToReceiverClaimableUtxoCreatorProver,
+  getReceiverClaimableUtxoToEncryptedBalanceClaimerProver,
 } from "@umbra-privacy/web-zk-prover";
 import type { UmbraClient } from "./umbra-client";
 import { UMBRA_RELAYER, PAYROLL_MINT } from "./constants";
@@ -72,7 +72,7 @@ export async function runPayroll(
   const mint = PAYROLL_MINT;
   if (!mint) throw new Error("NEXT_PUBLIC_PAYROLL_MINT not configured");
 
-  const zkProver = getCreateReceiverClaimableUtxoFromPublicBalanceProver();
+  const zkProver = getPublicBalanceToReceiverClaimableUtxoCreatorProver();
   const createUtxo = getPublicBalanceToReceiverClaimableUtxoCreatorFunction(
     { client },
     { zkProver }
@@ -166,7 +166,7 @@ export async function claimPayments(
   client: UmbraClient,
   utxos: any[]
 ) {
-  const zkProver = getClaimReceiverClaimableUtxoIntoEncryptedBalanceProver();
+  const zkProver = getReceiverClaimableUtxoToEncryptedBalanceClaimerProver();
   const relayer = getUmbraRelayer({ apiEndpoint: UMBRA_RELAYER });
 
   const claim = getReceiverClaimableUtxoToEncryptedBalanceClaimerFunction(
