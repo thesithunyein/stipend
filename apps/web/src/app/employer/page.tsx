@@ -163,7 +163,7 @@ export default function EmployerPage() {
     return (
       <div className="min-h-[80vh] flex items-center justify-center px-4">
         <div className="glass-card max-w-md w-full text-center space-y-4">
-          <Users className="w-12 h-12 text-brand-400 mx-auto" />
+          <Users className="w-12 h-12 text-white/60 mx-auto" />
           <h2 className="text-xl font-bold text-white">Employer Dashboard</h2>
           <p className="text-white/40">
             Connect your wallet to manage payroll.
@@ -179,7 +179,7 @@ export default function EmployerPage() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-            <Users className="w-6 h-6 text-brand-400" />
+            <Users className="w-6 h-6 text-white/60" />
             Employer Dashboard
           </h1>
           <p className="text-white/40 text-sm mt-1">
@@ -228,8 +228,8 @@ export default function EmployerPage() {
           },
         ].map((stat) => (
           <div key={stat.label} className="glass-card flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-brand-600/20 flex items-center justify-center shrink-0">
-              <stat.icon className="w-5 h-5 text-brand-400" />
+            <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+              <stat.icon className="w-5 h-5 text-white/60" />
             </div>
             <div>
               <div className="text-xl font-bold text-white">{stat.value}</div>
@@ -242,7 +242,7 @@ export default function EmployerPage() {
       {/* Add Employee */}
       <div className="glass-card space-y-4">
         <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-          <Plus className="w-5 h-5 text-brand-400" />
+          <Plus className="w-5 h-5 text-white/60" />
           Add Employee
         </h3>
         <div className="grid sm:grid-cols-4 gap-3">
@@ -340,7 +340,7 @@ export default function EmployerPage() {
           <div className="bg-black/30 rounded-xl p-4 font-mono text-xs space-y-1 max-h-48 overflow-y-auto">
             {store.progressLog.map((msg, i) => (
               <div key={i} className="text-white/60">
-                <span className="text-brand-400 mr-2">
+                <span className="text-white/60 mr-2">
                   [{new Date().toLocaleTimeString()}]
                 </span>
                 {msg}
@@ -354,7 +354,7 @@ export default function EmployerPage() {
       {store.payrollRuns.length > 0 && (
         <div className="glass-card space-y-4">
           <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-            <ScrollText className="w-5 h-5 text-brand-400" />
+            <ScrollText className="w-5 h-5 text-white/60" />
             Payroll History
           </h3>
           <div className="space-y-3">
@@ -364,7 +364,7 @@ export default function EmployerPage() {
                 className="bg-white/[0.02] rounded-xl p-4 border border-white/[0.04]"
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className="font-mono text-sm text-brand-300">
+                  <span className="font-mono text-sm text-white/80">
                     {run.runId}
                   </span>
                   <span className="text-xs text-white/40">
@@ -414,7 +414,7 @@ export default function EmployerPage() {
       {/* Export Viewing Key */}
       <div className="glass-card space-y-4">
         <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-          <Key className="w-5 h-5 text-brand-400" />
+          <Key className="w-5 h-5 text-white/60" />
           Export Viewing Key for Compliance
         </h3>
         <p className="text-white/40 text-sm">

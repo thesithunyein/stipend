@@ -118,7 +118,7 @@ export default function AuditorPage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-          <FileSearch className="w-6 h-6 text-amber-400" />
+          <FileSearch className="w-6 h-6 text-white/60" />
           Auditor Dashboard
         </h1>
         <p className="text-white/40 text-sm mt-1">
@@ -129,7 +129,7 @@ export default function AuditorPage() {
       {/* Upload / Paste */}
       <div className="glass-card space-y-4">
         <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-          <Upload className="w-5 h-5 text-amber-400" />
+          <Upload className="w-5 h-5 text-white/60" />
           Load Audit Package
         </h3>
 
@@ -169,7 +169,7 @@ export default function AuditorPage() {
             <h3 className="text-lg font-semibold text-white">
               Manifest Preview
             </h3>
-            <span className="text-xs font-mono text-brand-300">
+            <span className="text-xs font-mono text-white/80">
               {manifest.runId}
             </span>
           </div>
@@ -200,10 +200,10 @@ export default function AuditorPage() {
           </div>
 
           {viewingKeyHex && (
-            <div className="flex items-center gap-2 p-3 rounded-xl bg-brand-600/10 border border-brand-500/20">
-              <Key className="w-4 h-4 text-brand-400 shrink-0" />
+            <div className="flex items-center gap-2 p-3 rounded-xl bg-white/10 border border-white/10">
+              <Key className="w-4 h-4 text-white/60 shrink-0" />
               <div className="text-xs">
-                <span className="text-brand-300 font-medium">
+                <span className="text-white/80 font-medium">
                   Viewing Key Included
                 </span>
                 <span className="text-white/40 ml-2 font-mono">
@@ -252,11 +252,11 @@ export default function AuditorPage() {
               </div>
               <div className="text-xs text-white/40">Total Entries</div>
             </div>
-            <div className="bg-emerald-600/10 rounded-xl p-4 text-center border border-emerald-500/20">
+            <div className="bg-white/10 rounded-xl p-4 text-center border border-white/10">
               <div className="text-2xl font-bold text-emerald-400">
                 {verifiedCount}
               </div>
-              <div className="text-xs text-emerald-400/60">
+              <div className="text-xs text-white/40">
                 On-chain Verified
               </div>
             </div>
@@ -314,7 +314,7 @@ export default function AuditorPage() {
                         href={v.explorerUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-brand-400 hover:text-brand-300 transition-colors"
+                        className="text-white/60 hover:text-white/80 transition-colors"
                       >
                         <ExternalLink className="w-4 h-4 inline" />
                       </a>
