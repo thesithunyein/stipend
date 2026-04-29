@@ -155,7 +155,7 @@ export default function AuditorPage() {
         </div>
 
         <textarea
-          placeholder='Paste the full audit package JSON here (from employer\'s "Export Viewing Key")...'
+          placeholder={"Paste the full audit package JSON here (from employer's Export Viewing Key)..."}
           value={auditJson}
           onChange={(e) => setAuditJson(e.target.value)}
           className="input-field w-full h-32 resize-y font-mono text-xs"
