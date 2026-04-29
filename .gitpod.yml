@@ -4,7 +4,7 @@ tasks:
   - name: Setup & Dev
     init: |
       npm i -g pnpm@9
-      pnpm install
+      bash scripts/setup-codespace.sh
     command: pnpm dev
 
 ports:
