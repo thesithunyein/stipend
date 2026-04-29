@@ -9,7 +9,6 @@
     "lint": "pnpm --filter @stipend/web lint"
   },
   "engines": {
-    "node": ">=18",
-    "pnpm": ">=9"
+    "node": ">=18"
   }
 }
