@@ -7,6 +7,7 @@ import {
   getUmbraRelayer,
 } from "@umbra-privacy/sdk";
 import {
+  getUserRegistrationProver,
   getPublicBalanceToReceiverClaimableUtxoCreatorProver,
   getReceiverClaimableUtxoToEncryptedBalanceClaimerProver,
 } from "@umbra-privacy/web-zk-prover";
@@ -54,7 +55,8 @@ export interface PayrollManifest {
 // ── Registration ─────────────────────────────────────────────────────
 
 export async function registerUser(client: UmbraClient) {
-  const register = getUserRegistrationFunction({ client });
+  const zkProver = getUserRegistrationProver();
+  const register = getUserRegistrationFunction({ client }, { zkProver } as any);
   const signatures = await register({
     confidential: true,
     anonymous: true,
