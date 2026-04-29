@@ -171,7 +171,7 @@ export async function claimPayments(
 
   const claim = getReceiverClaimableUtxoToEncryptedBalanceClaimerFunction(
     { client },
-    { zkProver, relayer }
+    { zkProver, relayer } as any
   );
 
   const result = await claim(utxos);
