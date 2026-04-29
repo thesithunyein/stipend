@@ -19,12 +19,14 @@ export const metadata: Metadata = {
     url: "https://stipend.vercel.app",
     siteName: "Stipend",
     type: "website",
+    images: [{ url: "/og-image.svg", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Stipend — Private Payroll on Solana",
     description:
       "Confidential payroll powered by Umbra SDK. Real devnet deployment, zero mocks.",
+    images: ["/og-image.svg"],
   },
 };
 

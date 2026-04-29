@@ -18,6 +18,7 @@ import {
 import { useWalletStore, useEmployerStore } from "@/lib/store";
 import { registerUser, runPayroll, buildManifest } from "@/lib/payroll";
 import { deriveViewingKey, createAuditPackage } from "@/lib/compliance";
+import { ZkLoadingOverlay } from "@/components/zk-loading-overlay";
 import type { Employee } from "@/lib/payroll";
 import type { ViewingKeyScope } from "@/lib/compliance";
 
@@ -175,6 +176,11 @@ export default function EmployerPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
+      <ZkLoadingOverlay
+        isVisible={store.isRunning}
+        label="Running payroll — generating ZK proofs"
+      />
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>

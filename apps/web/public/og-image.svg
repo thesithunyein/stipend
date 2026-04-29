@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0a"/>
+      <stop offset="100%" style="stop-color:#1a1a2e"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="20" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Subtle glow -->
+  <circle cx="600" cy="250" r="200" fill="rgba(255,255,255,0.03)" filter="url(#glow)"/>
+  <!-- Logo -->
+  <g transform="translate(530, 140)">
+    <rect width="140" height="140" rx="32" fill="#fff"/>
+    <text x="70" y="106" font-family="system-ui,-apple-system,sans-serif" font-weight="900" font-size="96" text-anchor="middle" fill="#000">$</text>
+    <rect x="24" y="63" width="92" height="14" rx="7" fill="#000"/>
+  </g>
+  <!-- Title -->
+  <text x="600" y="360" font-family="system-ui,-apple-system,sans-serif" font-weight="900" font-size="72" text-anchor="middle" fill="#ffffff">Stipend</text>
+  <!-- Subtitle -->
+  <text x="600" y="410" font-family="system-ui,-apple-system,sans-serif" font-weight="400" font-size="28" text-anchor="middle" fill="rgba(255,255,255,0.6)">Private Payroll on Solana</text>
+  <!-- Features -->
+  <text x="600" y="470" font-family="system-ui,-apple-system,sans-serif" font-weight="400" font-size="20" text-anchor="middle" fill="rgba(255,255,255,0.35)">Confidential · Unlinkable · Compliant</text>
+  <!-- Built with -->
+  <text x="600" y="570" font-family="system-ui,-apple-system,sans-serif" font-weight="500" font-size="18" text-anchor="middle" fill="rgba(255,255,255,0.25)">Built with Umbra SDK</text>
+</svg>

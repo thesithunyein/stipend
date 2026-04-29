@@ -19,6 +19,7 @@ import {
   claimPayments,
   withdrawToPublic,
 } from "@/lib/payroll";
+import { ZkLoadingOverlay } from "@/components/zk-loading-overlay";
 
 export default function EmployeePage() {
   const { umbraClient, account } = useWalletStore();
@@ -123,6 +124,14 @@ export default function EmployeePage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+      <ZkLoadingOverlay
+        isVisible={store.isClaiming}
+        label="Claiming payments — generating ZK proofs"
+      />
+      <ZkLoadingOverlay
+        isVisible={isWithdrawing}
+        label="Withdrawing — generating ZK proof"
+      />
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>

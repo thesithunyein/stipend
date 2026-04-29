@@ -27,18 +27,24 @@ export function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center space-x-1">
-            <Link href="/" className="text-white/70 hover:text-white px-4 py-2 rounded-xl hover:bg-white/10 transition-all duration-200 font-medium">
-              Home
-            </Link>
-            <Link href="/employer" className="text-white/70 hover:text-white px-4 py-2 rounded-xl hover:bg-white/10 transition-all duration-200 font-medium">
-              Employer
-            </Link>
-            <Link href="/employee" className="text-white/70 hover:text-white px-4 py-2 rounded-xl hover:bg-white/10 transition-all duration-200 font-medium">
-              Employee
-            </Link>
-            <Link href="/auditor" className="text-white/70 hover:text-white px-4 py-2 rounded-xl hover:bg-white/10 transition-all duration-200 font-medium">
-              Auditor
-            </Link>
+            {[
+              { href: "/", label: "Home" },
+              { href: "/employer", label: "Employer" },
+              { href: "/employee", label: "Employee" },
+              { href: "/auditor", label: "Auditor" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`px-4 py-2 rounded-xl transition-all duration-200 font-medium ${
+                  pathname === link.href
+                    ? "text-white bg-white/10"
+                    : "text-white/70 hover:text-white hover:bg-white/10"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
 
           <div className="flex items-center gap-4">

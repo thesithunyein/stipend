@@ -44,7 +44,7 @@ const roles = [
     title: "Employer",
     description:
       "Add employees, run payroll in one click, and export viewing keys for auditors.",
-    color: "from-brand-500 to-indigo-600",
+    color: "from-white/20 to-white/5",
   },
   {
     href: "/employee",
@@ -52,7 +52,7 @@ const roles = [
     title: "Employee",
     description:
       "Scan for incoming payments, claim UTXOs into your encrypted balance, and withdraw.",
-    color: "from-emerald-500 to-teal-600",
+    color: "from-white/15 to-white/5",
   },
   {
     href: "/auditor",
@@ -60,7 +60,7 @@ const roles = [
     title: "Auditor",
     description:
       "Paste an audit package, verify payments on-chain, and export compliance reports.",
-    color: "from-amber-500 to-orange-600",
+    color: "from-white/10 to-white/5",
   },
 ];
 
@@ -71,8 +71,8 @@ export default function Home() {
       <section className="relative overflow-hidden px-4 pt-24 pb-20 sm:pt-32 sm:pb-28">
         {/* Gradient bg */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-brand-600/20 rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[100px]" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-white/10 rounded-full blur-[120px]" />
+          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-white/5 rounded-full blur-[100px]" />
         </div>
 
         <div className="max-w-7xl mx-auto text-center">
