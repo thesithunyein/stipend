@@ -1,5 +1,6 @@
 import {
   getUserRegistrationFunction,
+  getUserAccountQuerierFunction,
   getPublicBalanceToReceiverClaimableUtxoCreatorFunction,
   getClaimableUtxoScannerFunction,
   getReceiverClaimableUtxoToEncryptedBalanceClaimerFunction,
@@ -73,6 +74,21 @@ export async function runPayroll(
 ): Promise<PayrollRunResult> {
   const mint = PAYROLL_MINT;
   if (!mint) throw new Error("NEXT_PUBLIC_PAYROLL_MINT not configured");
+
+  // Check if employer is fully registered
+  onProgress?.("Checking registration status...");
+  const query = getUserAccountQuerierFunction({ client });
+  const accountState = await query(client.signer.address);
+  const isFullyRegistered =
+    accountState.state === "exists" &&
+    accountState.data.isUserAccountX25519KeyRegistered &&
+    accountState.data.isUserCommitmentRegistered;
+
+  if (!isFullyRegistered) {
+    onProgress?.("Employer not fully registered, re-registering...");
+    await registerUser(client);
+    onProgress?.("Registration complete");
+  }
 
   const zkProver = getCreateReceiverClaimableUtxoFromPublicBalanceProver();
   const createUtxo = getPublicBalanceToReceiverClaimableUtxoCreatorFunction(
@@ -153,6 +169,18 @@ export function buildManifest(
 // ── Employee: scan & claim ───────────────────────────────────────────
 
 export async function scanForPayments(client: UmbraClient) {
+  // Check registration first
+  const query = getUserAccountQuerierFunction({ client });
+  const accountState = await query(client.signer.address);
+  const isFullyRegistered =
+    accountState.state === "exists" &&
+    accountState.data.isUserAccountX25519KeyRegistered &&
+    accountState.data.isUserCommitmentRegistered;
+
+  if (!isFullyRegistered) {
+    await registerUser(client);
+  }
+
   const scan = getClaimableUtxoScannerFunction({ client });
   const result = await scan(0 as any, 0 as any);
 
@@ -168,6 +196,18 @@ export async function claimPayments(
   client: UmbraClient,
   utxos: any[]
 ) {
+  // Check registration first
+  const query = getUserAccountQuerierFunction({ client });
+  const accountState = await query(client.signer.address);
+  const isFullyRegistered =
+    accountState.state === "exists" &&
+    accountState.data.isUserAccountX25519KeyRegistered &&
+    accountState.data.isUserCommitmentRegistered;
+
+  if (!isFullyRegistered) {
+    await registerUser(client);
+  }
+
   const zkProver = getClaimReceiverClaimableUtxoIntoEncryptedBalanceProver();
   const relayer = getUmbraRelayer({ apiEndpoint: UMBRA_RELAYER });
 
@@ -186,6 +226,18 @@ export async function withdrawToPublic(
 ) {
   const mint = PAYROLL_MINT;
   if (!mint) throw new Error("NEXT_PUBLIC_PAYROLL_MINT not configured");
+
+  // Check registration first
+  const query = getUserAccountQuerierFunction({ client });
+  const accountState = await query(client.signer.address);
+  const isFullyRegistered =
+    accountState.state === "exists" &&
+    accountState.data.isUserAccountX25519KeyRegistered &&
+    accountState.data.isUserCommitmentRegistered;
+
+  if (!isFullyRegistered) {
+    await registerUser(client);
+  }
 
   const withdraw = getEncryptedBalanceToPublicBalanceDirectWithdrawerFunction({
     client,
