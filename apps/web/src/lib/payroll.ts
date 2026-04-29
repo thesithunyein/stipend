@@ -73,7 +73,8 @@ export async function runPayroll(
   onProgress?: (msg: string) => void
 ): Promise<PayrollRunResult> {
   const mint = PAYROLL_MINT;
-  if (!mint) throw new Error("NEXT_PUBLIC_PAYROLL_MINT not configured");
+  // Temporarily allow empty mint to test with SOL (native token)
+  // if (!mint) throw new Error("NEXT_PUBLIC_PAYROLL_MINT not configured");
 
   // Check if employer is fully registered
   onProgress?.("Checking registration status...");
@@ -225,7 +226,8 @@ export async function withdrawToPublic(
   amount: bigint
 ) {
   const mint = PAYROLL_MINT;
-  if (!mint) throw new Error("NEXT_PUBLIC_PAYROLL_MINT not configured");
+  // Temporarily allow empty mint to test with SOL (native token)
+  // if (!mint) throw new Error("NEXT_PUBLIC_PAYROLL_MINT not configured");
 
   // Check registration first
   const query = getUserAccountQuerierFunction({ client });
