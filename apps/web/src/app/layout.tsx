@@ -7,8 +7,25 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Stipend — Private Payroll on Solana",
   description:
-    "Confidential payroll powered by Umbra. Employees get paid, amounts stay hidden, compliance stays possible.",
-  icons: { icon: "/favicon.svg" },
+    "Confidential payroll powered by Umbra SDK. Employees get paid, amounts stay hidden, compliance stays possible.",
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/icon.svg",
+  },
+  openGraph: {
+    title: "Stipend — Private Payroll on Solana",
+    description:
+      "Confidential payroll powered by Umbra SDK. Real devnet deployment, zero mocks.",
+    url: "https://stipend.vercel.app",
+    siteName: "Stipend",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Stipend — Private Payroll on Solana",
+    description:
+      "Confidential payroll powered by Umbra SDK. Real devnet deployment, zero mocks.",
+  },
 };
 
 export default function RootLayout({
@@ -21,15 +38,15 @@ export default function RootLayout({
       <body className="min-h-screen antialiased">
         <WalletProvider>
           <Navbar />
-          <main className="pt-16">{children}</main>
+          <main className="pt-20">{children}</main>
           <Toaster
             theme="dark"
             position="bottom-right"
             toastOptions={{
               style: {
-                background: "hsl(224 71% 6%)",
-                border: "1px solid hsl(216 34% 17%)",
-                color: "hsl(213 31% 91%)",
+                background: "#18181b",
+                border: "1px solid rgba(255,255,255,0.1)",
+                color: "#ffffff",
               },
             }}
           />
