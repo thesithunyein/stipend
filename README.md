@@ -4,7 +4,45 @@
 
 Stipend is a confidential payroll application built on the [Umbra Privacy SDK](https://sdk.umbraprivacy.com). Employers pay employees through Umbra's mixer pool — salaries are encrypted, transfers are unlinkable, and compliance is optional via scoped viewing keys.
 
-> Built for the Umbra SDK Hackathon 2025.
+> Built for the Umbra SDK Hackathon 2026.
+
+---
+
+## Current Status
+
+### ✅ Working Features
+- **Wallet connection** — Phantom, Backpack, Solflare via Wallet Standard
+- **User registration** — Full Umbra registration (confidential + anonymous mode) works correctly
+- **Employer dashboard** — Add employees, manage payroll list
+- **Employee dashboard** — Wallet connection, registration UI
+- **Auditor dashboard** — Audit package loading, verification UI
+- **Viewing key derivation** — Master, mint, yearly, monthly, daily keys
+- **UI/UX** — Modern glass design, responsive, intuitive flows
+- **Helius RPC integration** — Reliable RPC endpoint for devnet
+
+### ⚠️ Known Issue: Umbra Devnet Transaction Failure
+
+**Problem**: UTXO creation fails with Solana error -32002 on Umbra devnet
+- Error: `CreatePublicUtxoProofAccount: Failed to send transaction: Solana error #-32002`
+- Transaction simulation fails with empty logs and 0 compute units consumed
+- Issue persists even with: Helius RPC, devnet USDC, SOL (native token)
+- Registration works correctly — the issue is specific to UTXO creation
+
+**Troubleshooting Attempted**:
+1. ✅ Fixed ZK prover function names to match SDK exports
+2. ✅ Switched from public devnet RPC to Helius
+3. ✅ Switched from custom SPL mint to official devnet USDC
+4. ✅ Added registration checks before payroll
+5. ✅ Tested with SOL (native token) instead of SPL tokens
+6. ✅ Verified Umbra devnet program ID is correct
+
+**Conclusion**: The Umbra devnet program appears to have a fundamental issue with UTXO creation. Contacted Umbra support on X (@UmbraPrivacy) for assistance. See [DEVNET_ISSUE.md](./DEVNET_ISSUE.md) for full technical details.
+
+**Impact**: The core privacy feature (anonymous payroll via UTXO mixer) cannot be tested on devnet. However, the application demonstrates:
+- Correct Umbra SDK integration (registration works)
+- Proper ZK prover usage
+- Well-designed UI/UX for all three roles
+- Complete compliance tooling infrastructure
 
 ---
 
