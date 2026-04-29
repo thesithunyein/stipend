@@ -6,65 +6,101 @@
 
 @layer base {
   :root {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
-    --card: 224 71% 6%;
-    --card-foreground: 213 31% 91%;
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
-    --ring: 263 70% 50%;
-    --primary: 263 70% 50%;
-    --primary-foreground: 210 40% 98%;
-    --muted: 223 47% 11%;
-    --muted-foreground: 215 20% 65%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-    --success: 142 76% 36%;
-    --success-foreground: 210 40% 98%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 5%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 5%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 5%;
+    --border: 0 0% 89%;
+    --input: 0 0% 89%;
+    --ring: 0 0% 5%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 0 0% 5%;
+    --foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 98%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 98%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 98%;
   }
 
   * {
-    border-color: hsl(var(--border));
+    @apply border-border;
   }
 
   body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
-    font-family: "Inter", system-ui, sans-serif;
+    @apply bg-background text-foreground font-sans;
+    background-image: 
+      radial-gradient(at 40% 20%, rgba(255,255,255,0.1) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, rgba(255,255,255,0.05) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, rgba(255,255,255,0.03) 0px, transparent 50%);
+    animation: gradient 20s ease infinite;
+    background-size: 200% 200%;
   }
 }
 
-@layer utilities {
-  .gradient-text {
-    @apply bg-gradient-to-r from-brand-400 via-brand-300 to-purple-300 bg-clip-text text-transparent;
-  }
-
-  .glass {
-    @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-2xl;
-  }
-
+@layer components {
   .glass-card {
-    @apply glass p-6 hover:border-white/[0.12] transition-all duration-300;
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl;
+  }
+
+  .glass-card-hover {
+    @apply glass-card hover:bg-white/10 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1;
   }
 
   .btn-primary {
-    @apply bg-brand-600 hover:bg-brand-500 text-white font-medium px-6 py-2.5 rounded-xl transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-black hover:bg-gray-900 text-white font-semibold py-3 px-6 rounded-2xl transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105;
   }
 
   .btn-secondary {
-    @apply bg-white/[0.06] hover:bg-white/[0.1] text-white font-medium px-6 py-2.5 rounded-xl border border-white/[0.08] transition-all duration-200;
+    @apply bg-white/10 hover:bg-white/20 text-white font-medium py-2.5 px-5 rounded-2xl transition-all duration-200 border border-white/20 backdrop-blur-sm;
   }
 
   .input-field {
-    @apply bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500/50 transition-all;
+    @apply bg-white/5 border border-white/20 text-white placeholder-white/50 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-200 backdrop-blur-sm;
   }
 
-  .animate-glow {
-    animation: glow 3s ease-in-out infinite alternate;
+  .gradient-text {
+    @apply bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent;
   }
 
-  @keyframes glow {
-    0% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.1); }
-    100% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.2); }
+  .animated-gradient {
+    background: linear-gradient(-45deg, #ffffff, #f4f4f5, #e4e4e7, #d4d4d8);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  .navbar-blur {
+    @apply bg-black/40 backdrop-blur-2xl border-b border-white/10;
+  }
+
+  .role-card {
+    @apply glass-card-hover p-8 text-center cursor-pointer group;
+  }
+
+  .status-badge {
+    @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium;
+  }
+
+  .status-success {
+    @apply status-badge bg-green-500/20 text-green-300 border border-green-500/30;
+  }
+
+  .status-error {
+    @apply status-badge bg-red-500/20 text-red-300 border border-red-500/30;
+  }
+
+  .status-pending {
+    @apply status-badge bg-yellow-500/20 text-yellow-300 border border-yellow-500/30;
   }
 }
