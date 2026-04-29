@@ -75,7 +75,7 @@ export default function Home() {
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[100px]" />
         </div>
 
-          </div>
+        <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black text-white mb-6 leading-tight">
             Private
             <br />
