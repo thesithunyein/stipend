@@ -1,0 +1,19 @@
+image: gitpod/workspace-full
+
+tasks:
+  - name: Setup & Dev
+    init: |
+      npm i -g pnpm@9
+      pnpm install
+    command: pnpm dev
+
+ports:
+  - port: 3000
+    onOpen: open-browser
+    visibility: public
+
+vscode:
+  extensions:
+    - bradlc.vscode-tailwindcss
+    - dbaeumer.vscode-eslint
+    - esbenp.prettier-vscode

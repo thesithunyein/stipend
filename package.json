@@ -1,0 +1,15 @@
+{
+  "name": "stipend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Private payroll on Solana — paid in full, public to none.",
+  "scripts": {
+    "dev": "pnpm --filter @stipend/web dev",
+    "build": "pnpm --filter @stipend/web build",
+    "lint": "pnpm --filter @stipend/web lint"
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=9"
+  }
+}
