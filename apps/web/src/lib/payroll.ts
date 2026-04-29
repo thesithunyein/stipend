@@ -89,7 +89,7 @@ export async function runPayroll(
       const result = await createUtxo({
         destinationAddress: emp.address as any,
         mint: mint as any,
-        amount: emp.salary,
+        amount: emp.salary as any,
       });
 
       const txSig =
@@ -192,7 +192,7 @@ export async function withdrawToPublic(
   const result = await withdraw(
     client.signer.address,
     mint as any,
-    amount
+    amount as any
   );
 
   return result;
