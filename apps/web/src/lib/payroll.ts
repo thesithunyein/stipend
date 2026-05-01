@@ -128,6 +128,18 @@ export async function runPayroll(
 
       onProgress?.(`Paid ${emp.name} successfully.`);
     } catch (err: any) {
+      console.error("[Stipend] Full error object:", err);
+      console.error("[Stipend] Error name:", err?.name);
+      console.error("[Stipend] Error message:", err?.message);
+      console.error("[Stipend] Error cause:", err?.cause);
+      console.error("[Stipend] Error logs:", err?.logs);
+      console.error("[Stipend] Error stack:", err?.stack);
+      if (err?.transactionMessage) {
+        console.error("[Stipend] TX message:", err.transactionMessage);
+      }
+      if (err?.transaction) {
+        console.error("[Stipend] TX bytes:", err.transaction);
+      }
       results.push({
         address: emp.address,
         name: emp.name,
