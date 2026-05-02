@@ -69,14 +69,20 @@ export function WalletProvider({ children }: { children: ReactNode }) {
           ) || accounts[0];
         if (!rawAccount) throw new Error("No account returned from wallet");
 
-        // Force devnet chain only so wallet signs transactions as devnet
-        const account: any = new Proxy(rawAccount, {
-          get(target, prop) {
-            if (prop === "chains") return ["solana:devnet"];
-            return (target as any)[prop];
-          },
-        });
-        console.log("[Stipend] Selected account:", account.address, "chains:", account.chains, "(forced)");
+        // Reorder chains so solana:devnet is first (SDK picks first chain)
+        const otherChains = (rawAccount.chains || []).filter(
+          (c: string) => c !== "solana:devnet"
+        );
+        const account: any = {
+          ...rawAccount,
+          address: rawAccount.address,
+          publicKey: rawAccount.publicKey,
+          features: rawAccount.features,
+          label: rawAccount.label,
+          icon: rawAccount.icon,
+          chains: ["solana:devnet", ...otherChains],
+        };
+        console.log("[Stipend] Selected account:", account.address, "chains:", account.chains);
 
         setWallet(wallet, account);
 
