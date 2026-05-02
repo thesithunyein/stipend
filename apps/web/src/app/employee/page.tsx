@@ -236,7 +236,7 @@ export default function EmployeePage() {
                     </div>
                     <div className="text-xs text-[#6B6F76] font-mono">
                       {utxo.amount
-                        ? `${(Number(utxo.amount) / 1e6).toFixed(2)} tokens`
+                        ? `${(Number(utxo.amount / 1000000n)).toFixed(2)} tokens`
                         : "Encrypted amount"}
                     </div>
                   </div>
