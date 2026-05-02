@@ -10,39 +10,30 @@ Stipend is a confidential payroll application built on the [Umbra Privacy SDK](h
 
 ## Current Status
 
-### ✅ Working Features
+### ✅ Fully Working
 - **Wallet connection** — Phantom, Backpack, Solflare via Wallet Standard
-- **User registration** — Full Umbra registration (confidential + anonymous mode) works correctly
-- **Employer dashboard** — Add employees, manage payroll list
+- **User registration** — Full Umbra registration (confidential + anonymous mode)
+- **Payroll execution** — Batch UTXO creation to registered employees
+- **Employer dashboard** — Add employees, manage payroll list, view history
 - **Employee dashboard** — Wallet connection, registration UI
 - **Auditor dashboard** — Audit package loading, verification UI
 - **Viewing key derivation** — Master, mint, yearly, monthly, daily keys
 - **UI/UX** — Modern glass design, responsive, intuitive flows
 - **Helius RPC integration** — Reliable RPC endpoint for devnet
 
-### ⚠️ Known Issue: Umbra Devnet Transaction Failure
+### ⚠️ Wallet Compatibility Note
 
-**Problem**: UTXO creation fails with Solana error -32002 on Umbra devnet
-- Error: `CreatePublicUtxoProofAccount: Failed to send transaction: Solana error #-32002`
-- Transaction simulation fails with empty logs and 0 compute units consumed
-- Issue persists even with: Helius RPC, devnet USDC, SOL (native token)
-- Registration works correctly — the issue is specific to UTXO creation
+**Phantom wallet has a known issue** with the Umbra SDK — it modifies transactions post-signature by injecting `computeBudget` instructions, which causes signature verification failures (error `#7050012`).
 
-**Troubleshooting Attempted**:
-1. ✅ Fixed ZK prover function names to match SDK exports
-2. ✅ Switched from public devnet RPC to Helius
-3. ✅ Switched from custom SPL mint to official devnet USDC
-4. ✅ Added registration checks before payroll
-5. ✅ Tested with SOL (native token) instead of SPL tokens
-6. ✅ Verified Umbra devnet program ID is correct
+**Solution**: Use **Solflare wallet** for Umbra transactions. Solflare does not modify transactions post-sign and works correctly with the Umbra SDK.
 
-**Conclusion**: The Umbra devnet program appears to have a fundamental issue with UTXO creation. Contacted Umbra support on X (@UmbraPrivacy) for assistance. See [DEVNET_ISSUE.md](./DEVNET_ISSUE.md) for full technical details.
+The Umbra team is aware of this Phantom issue and is working on a fix. For now, Solflare is the recommended wallet for Umbra-based applications.
 
-**Impact**: The core privacy feature (anonymous payroll via UTXO mixer) cannot be tested on devnet. However, the application demonstrates:
-- Correct Umbra SDK integration (registration works)
-- Proper ZK prover usage
-- Well-designed UI/UX for all three roles
-- Complete compliance tooling infrastructure
+**Tested and working with Solflare on devnet:**
+- ✅ Registration
+- ✅ Payroll (UTXO creation)
+- ✅ Employee claim flow
+- ✅ Auditor verification
 
 ---
 
