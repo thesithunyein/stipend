@@ -9,7 +9,7 @@ import {
 } from "@umbra-privacy/sdk";
 import {
   getUserRegistrationProver,
-  getPublicBalanceToReceiverClaimableUtxoCreatorProver,
+  getCreateReceiverClaimableUtxoFromPublicBalanceProver,
   getClaimReceiverClaimableUtxoIntoEncryptedBalanceProver,
 } from "@umbra-privacy/web-zk-prover";
 import type { UmbraClient } from "./umbra-client";
@@ -90,7 +90,7 @@ export async function runPayroll(
     onProgress?.("Registration complete");
   }
 
-  const zkProver = getPublicBalanceToReceiverClaimableUtxoCreatorProver();
+  const zkProver = getCreateReceiverClaimableUtxoFromPublicBalanceProver();
   const createUtxo = getPublicBalanceToReceiverClaimableUtxoCreatorFunction(
     { client },
     { zkProver }
