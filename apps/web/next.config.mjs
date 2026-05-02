@@ -10,6 +10,15 @@ const nextConfig = {
       net: false,
       tls: false,
     };
+    // Enable WASM support for @umbra-privacy/web-zk-prover
+    config.experiments = {
+      ...config.experiments,
+      asyncWebAssembly: true,
+    };
+    config.module.rules.push({
+      test: /\.wasm$/,
+      type: "webassembly/async",
+    });
     return config;
   },
 };
