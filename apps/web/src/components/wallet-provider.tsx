@@ -63,8 +63,13 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       try {
         const connectFeature = wallet.features[StandardConnect] as any;
         const { accounts } = await connectFeature.connect();
-        const account = accounts[0];
+        // Prefer devnet-capable account so signatures verify against devnet
+        const account =
+          accounts.find((a: any) =>
+            (a.chains || []).includes("solana:devnet")
+          ) || accounts[0];
         if (!account) throw new Error("No account returned from wallet");
+        console.log("[Stipend] Selected account:", account.address, "chains:", account.chains);
 
         setWallet(wallet, account);
 
