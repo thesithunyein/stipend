@@ -90,11 +90,36 @@ export async function runPayroll(
     onProgress?.("Registration complete");
   }
 
+  // Intercept fetch to log all WASM / indexer / RPC requests for debugging
+  if (typeof window !== "undefined" && !(window as any).__stipendFetchHooked) {
+    (window as any).__stipendFetchHooked = true;
+    const origFetch = window.fetch;
+    window.fetch = async (...args: any[]) => {
+      const url = typeof args[0] === "string" ? args[0] : args[0]?.url;
+      if (url?.includes(".wasm") || url?.includes("zkey") || url?.includes("prover") || url?.includes("umbra")) {
+        console.log("[Stipend:fetch]", args[1]?.method || "GET", url);
+      }
+      try {
+        const res = await origFetch.apply(window, args as any);
+        if (url?.includes(".wasm") || url?.includes("zkey") || url?.includes("prover")) {
+          console.log("[Stipend:fetch] response", res.status, url);
+        }
+        return res;
+      } catch (e) {
+        console.error("[Stipend:fetch] error", url, e);
+        throw e;
+      }
+    };
+  }
+
+  console.log("[Stipend] Initializing zkProver for UTXO creation...");
   const zkProver = getCreateReceiverClaimableUtxoFromPublicBalanceProver();
+  console.log("[Stipend] zkProver:", zkProver);
   const createUtxo = getPublicBalanceToReceiverClaimableUtxoCreatorFunction(
     { client },
     { zkProver }
   );
+  console.log("[Stipend] createUtxo function ready");
 
   const runId = `PR-${Date.now().toString(36).toUpperCase()}`;
   const results: PayrollRunResult["employees"] = [];
