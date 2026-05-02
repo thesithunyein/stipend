@@ -63,26 +63,14 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       try {
         const connectFeature = wallet.features[StandardConnect] as any;
         const { accounts } = await connectFeature.connect();
-        const rawAccount =
+        const account =
           accounts.find((a: any) =>
             (a.chains || []).includes("solana:devnet")
           ) || accounts[0];
-        if (!rawAccount) throw new Error("No account returned from wallet");
-
-        // Reorder chains so solana:devnet is first (SDK picks first chain)
-        const otherChains = (rawAccount.chains || []).filter(
-          (c: string) => c !== "solana:devnet"
-        );
-        const account: any = {
-          ...rawAccount,
-          address: rawAccount.address,
-          publicKey: rawAccount.publicKey,
-          features: rawAccount.features,
-          label: rawAccount.label,
-          icon: rawAccount.icon,
-          chains: ["solana:devnet", ...otherChains],
-        };
+        if (!account) throw new Error("No account returned from wallet");
         console.log("[Stipend] Selected account:", account.address, "chains:", account.chains);
+        console.log("[Stipend] Wallet features:", Object.keys(wallet.features));
+        console.log("[Stipend] Wallet name:", wallet.name);
 
         setWallet(wallet, account);
 
