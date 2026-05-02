@@ -19,7 +19,6 @@ export async function createUmbraClient(
     rpcUrl: RPC_URL,
     rpcSubscriptionsUrl: RPC_WS_URL,
     indexerApiEndpoint: UMBRA_INDEXER,
-    deferMasterSeedSignature: true,
   });
 
   return client;
