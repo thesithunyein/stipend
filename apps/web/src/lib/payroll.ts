@@ -9,7 +9,7 @@ import {
 } from "@umbra-privacy/sdk";
 import {
   getUserRegistrationProver,
-  getCreateReceiverClaimableUtxoFromPublicBalanceProver,
+  getPublicBalanceToReceiverClaimableUtxoCreatorProver,
   getClaimReceiverClaimableUtxoIntoEncryptedBalanceProver,
 } from "@umbra-privacy/web-zk-prover";
 import type { UmbraClient } from "./umbra-client";
@@ -90,7 +90,7 @@ export async function runPayroll(
     onProgress?.("Registration complete");
   }
 
-  const zkProver = getCreateReceiverClaimableUtxoFromPublicBalanceProver();
+  const zkProver = getPublicBalanceToReceiverClaimableUtxoCreatorProver();
   const createUtxo = getPublicBalanceToReceiverClaimableUtxoCreatorFunction(
     { client },
     { zkProver }
@@ -112,41 +112,18 @@ export async function runPayroll(
         );
       }
 
-      const result = await createUtxo(
-        emp.address as any,
-        mint as any,
-        emp.salary as any,
-        {
-          createProofAccount: {
-            pre: async (tx: any) => {
-              console.log("[Stipend] createProofAccount pre:", tx);
-              onProgress?.(`Creating proof account for ${emp.name}...`);
-            },
-            post: async (tx: any, sig: any) => {
-              console.log("[Stipend] createProofAccount post:", sig);
-              onProgress?.(`Proof account created: ${sig}`);
-            },
-          },
-          createUtxo: {
-            pre: async (tx: any) => {
-              console.log("[Stipend] createUtxo pre:", tx);
-              onProgress?.(`Submitting UTXO for ${emp.name}...`);
-            },
-            post: async (tx: any, sig: any) => {
-              console.log("[Stipend] createUtxo post:", sig);
-              onProgress?.(`UTXO created: ${sig}`);
-            },
-          },
-          closeProofAccount: {
-            pre: async (tx: any) => {
-              console.log("[Stipend] closeProofAccount pre:", tx);
-            },
-            post: async (tx: any, sig: any) => {
-              console.log("[Stipend] closeProofAccount post:", sig);
-            },
-          },
-        }
-      );
+      console.log("[Stipend] createUtxo params:", {
+        destinationAddress: emp.address,
+        mint,
+        amount: emp.salary,
+        amountType: typeof emp.salary,
+      });
+
+      const result = await createUtxo({
+        destinationAddress: emp.address as any,
+        mint: mint as any,
+        amount: emp.salary as any,
+      });
 
       const txSig =
         typeof result === "object" && result !== null
