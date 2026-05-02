@@ -104,6 +104,14 @@ export async function runPayroll(
     try {
       onProgress?.(`Paying ${emp.name} (${emp.address.slice(0, 8)}...)...`);
 
+      // Verify receiver is registered (required for receiver-claimable UTXOs)
+      const receiverState = await query(emp.address as any);
+      if (receiverState.state !== "exists") {
+        throw new Error(
+          `Employee ${emp.name} is not registered with Umbra. They must register first.`
+        );
+      }
+
       const result = await createUtxo({
         destinationAddress: emp.address as any,
         mint: mint as any,
