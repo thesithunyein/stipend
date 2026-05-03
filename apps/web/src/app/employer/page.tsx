@@ -14,6 +14,7 @@ import {
   Users,
   DollarSign,
   ScrollText,
+  Upload,
 } from "lucide-react";
 import { useWalletStore, useEmployerStore } from "@/lib/store";
 import { registerUser, runPayroll, buildManifest } from "@/lib/payroll";
@@ -74,6 +75,63 @@ export default function EmployerPage() {
     setNewAddr("");
     setNewSalary("");
     toast.success(`Added ${newName}`);
+  };
+
+  // ── CSV Bulk Import ──────────────────────────────────────────────
+  // Accepts a CSV with columns: name, address, salary (USDC, decimal)
+  // Header row is optional; first row is auto-detected.
+
+  const handleCsvUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const text = (ev.target?.result as string) || "";
+      const rows = text
+        .split(/\r?\n/)
+        .map((r) => r.trim())
+        .filter(Boolean);
+
+      if (rows.length === 0) return toast.error("CSV is empty");
+
+      // Detect & skip header
+      const first = rows[0].toLowerCase();
+      const hasHeader =
+        first.includes("name") ||
+        first.includes("address") ||
+        first.includes("salary") ||
+        first.includes("amount");
+      const dataRows = hasHeader ? rows.slice(1) : rows;
+
+      let added = 0;
+      const errors: string[] = [];
+
+      for (const [i, row] of dataRows.entries()) {
+        const cols = row.split(",").map((c) => c.trim().replace(/^"|"$/g, ""));
+        if (cols.length < 3) {
+          errors.push(`Row ${i + 1}: need 3 columns (name, address, salary)`);
+          continue;
+        }
+        const [name, address, salaryStr] = cols;
+        const salaryNum = parseFloat(salaryStr);
+        if (!name || !address || Number.isNaN(salaryNum) || salaryNum <= 0) {
+          errors.push(`Row ${i + 1}: invalid data`);
+          continue;
+        }
+        store.addEmployee({
+          id: crypto.randomUUID(),
+          name,
+          address,
+          salary: BigInt(Math.round(salaryNum * 1e6)),
+        });
+        added++;
+      }
+
+      e.target.value = ""; // allow re-uploading the same file
+      if (added > 0) toast.success(`Imported ${added} employee${added > 1 ? "s" : ""}`);
+      if (errors.length > 0) toast.error(errors.slice(0, 3).join("\n"));
+    };
+    reader.readAsText(file);
   };
 
   // ── Run Payroll ──────────────────────────────────────────────────
@@ -247,10 +305,25 @@ export default function EmployerPage() {
 
       {/* Add Employee */}
       <div className="glass-card space-y-4">
-        <h3 className="text-sm font-medium text-[#F5F5F5] flex items-center gap-2">
-          <Plus className="w-4 h-4 text-[#6B6F76]" />
-          Add Employee
-        </h3>
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-medium text-[#F5F5F5] flex items-center gap-2">
+            <Plus className="w-4 h-4 text-[#6B6F76]" />
+            Add Employee
+          </h3>
+          <label className="btn-secondary text-xs flex items-center gap-2 cursor-pointer">
+            <Upload className="w-3.5 h-3.5" />
+            Import CSV
+            <input
+              type="file"
+              accept=".csv,text/csv"
+              className="hidden"
+              onChange={handleCsvUpload}
+            />
+          </label>
+        </div>
+        <p className="text-xs text-[#6B6F76]">
+          CSV format: <code className="text-[#B5B5B5]">name,address,salary</code> — header row optional, salary in USDC decimal (e.g. <code>1.50</code>)
+        </p>
         <div className="grid sm:grid-cols-4 gap-3">
           <input
             type="text"

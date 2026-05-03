@@ -51,6 +51,12 @@ Public salaries are a privacy disaster — anyone can browse a Solana explorer, 
 | Auditor on-chain verification + Solscan link | ✅ |
 | CSV audit export | ✅ |
 
+| Role | Capability |
+|------|-----------|
+| **Employer** | Add employees one-by-one **or bulk-import from CSV**, run batch payroll (confidential UTXO creation), derive scoped viewing keys, download audit packages |
+| **Employee** | Scan for payments, claim UTXOs into encrypted balance, withdraw to public wallet |
+| **Auditor** | Load audit package JSON, verify transactions on-chain, click through to Solscan, export CSV reports |
+
 End-to-end tested on devnet with the Umbra dummy USDC mint (`4oG4sjmopf5MzvTHLE8rpVJ2uyczxfsw2K84SUTpNDx7`).
 
 ### Wallet compatibility
