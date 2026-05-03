@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import { WalletProvider } from "@/components/wallet-provider";
 import { Navbar } from "@/components/navbar";
+import { PhantomWarning } from "@/components/phantom-warning";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -41,6 +42,7 @@ export default function RootLayout({
         <div className="linear-glow" />
         <WalletProvider>
           <Navbar />
+          <PhantomWarning />
           <main className="pt-16">{children}</main>
           <Toaster
             theme="dark"

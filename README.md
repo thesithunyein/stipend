@@ -10,6 +10,22 @@ Stipend is a production-grade private payroll dApp built on the [Umbra Privacy S
 
 ---
 
+## For Judges — 60-Second Eval Path
+
+1. Open https://stipend-ten.vercel.app in a fresh tab
+2. Install [Solflare](https://solflare.com) (Phantom will trigger an in-app warning — it's incompatible with Umbra's signature scheme; Stipend detects this and tells you) and switch to **Devnet**
+3. Airdrop 1 SOL + get dUSDC from https://faucet.umbraprivacy.com
+4. `/employer` → connect → Register → add yourself as employee → **Run Payroll**
+5. Export Viewing Key → JSON downloads
+6. `/employee` (same wallet is fine for the demo) → Scan → Claim → Withdraw
+7. `/auditor` → upload JSON → Verify → click Solscan icon → see the real on-chain tx
+
+**No keys, no seed file, no local setup required.** Everything happens in the hosted dApp against live Umbra devnet.
+
+Prefer to skip the dApp? Watch the 3-minute demo: https://youtu.be/K-TFGMqlVig
+
+---
+
 ## Why Stipend?
 
 Public salaries are a privacy disaster — anyone can browse a Solana explorer, find a payroll wallet, and see what every employee earns. Existing privacy tools (Tornado, Light Protocol) are built for one-off transfers and don't model recurring B2B payments. Stipend solves payroll specifically:
@@ -158,12 +174,39 @@ Copy `apps/web/.env.example` → `apps/web/.env.local`:
 
 ---
 
+## Design Choices
+
+**Why three separate role dashboards (employer / employee / auditor) in one app?**
+Confidential payroll is a three-party protocol and each party has completely different UI needs. A single "wallet" view would collapse the permissions model. Splitting them up also clarifies the security boundary: the auditor page works without any wallet connection at all — it's pure verification against public RPC data plus the employer's offline-downloaded viewing key. That's literally how a real regulator would want to consume it.
+
+**Why receiver-claimable UTXOs instead of direct encrypted deposits?**
+A direct deposit from employer A's encrypted balance to employee B's encrypted balance requires B to be registered at deposit time. Payroll doesn't work that way in reality — you onboard employees asynchronously. Receiver-claimable UTXOs let the employer "mail" funds into the mixer immediately; the employee can register later and pull them out whenever. This matches real-world HR workflow.
+
+**Why scoped viewing keys + bundled audit package?**
+The bounty mentions viewing keys for compliance, but doesn't prescribe the delivery format. Stipend packages a `PayrollManifest` + a `ViewingKeyExport` into a single JSON the employer downloads and hands to an auditor. The auditor page accepts exactly that format, so there's no ambiguity about what a "compliance handoff" looks like. Scope is employer-chosen (daily / monthly / yearly / per-mint / master) — minimal disclosure by default.
+
+**Why Solana Kit instead of @solana/web3.js?**
+`@umbra-privacy/sdk` uses Kit internally (the modern tree-shakable Solana client). Aligning on the same library avoids double-bundling crypto primitives and ensures address/signature types match across the stack.
+
+**Why Helius RPC?**
+Default devnet RPC rate-limits aggressively during ZK proof verification, which causes the MPC monitor to time out. Helius is free on devnet and doesn't. Stipend falls back to default RPC if no key is configured.
+
+**Why zustand + localStorage persistence?**
+Payroll history and audit packages need to survive page refresh — otherwise employers can't re-export a manifest a week later. We implement a BigInt-safe JSON serializer (salaries are `bigint` in token base units, not `number`) so persisted state round-trips cleanly without precision loss.
+
+**Why detect Phantom proactively?**
+Phantom rewrites transactions between `signTransaction` and broadcast, which invalidates Umbra's signature verification (`#7050012`). Instead of waiting for judges to hit this and blame our app, we detect Phantom's injected globals on page load and show an inline warning pointing to Solflare/Backpack.
+
+---
+
 ## Implementation Highlights
 
 - **Browser-side ZK proving with WASM** — `next.config.mjs` enables `asyncWebAssembly` so `@umbra-privacy/web-zk-prover` loads its Groth16 circuits directly in the user's browser. No proving server.
 - **Correct claim wiring** — Umbra's `getReceiverClaimableUtxoToEncryptedBalanceClaimerFunction` reads `deps.relayer.{submitClaim, pollClaimStatus, getRelayerAddress}` plus a required `deps.fetchBatchMerkleProof`. Stipend pulls the latter off the `IUmbraClient` so the SDK never has to construct merkle proof fetchers from scratch.
 - **Scoped audit packages** — `compliance.ts` bundles a `PayrollManifest` (employer-signed payroll record) with a `ViewingKeyExport` (the actual derived key + its period/scope). The auditor page accepts this single JSON file and verifies signatures on-chain.
 - **Real signature extraction** — Umbra returns a multi-step result (`createProofAccountSignature`, `queueSignature`, `callbackSignature`); Stipend prefers the finalized callback signature for explorer links so audit reports show real, queryable transactions.
+- **BigInt-safe persisted state** — employer store is wrapped in a custom zustand `persist` middleware that serializes `bigint` via a `__bigint:` sentinel so employees, manifests, and viewing keys survive refresh without precision loss.
+- **Proactive Phantom incompatibility detection** — `phantom-warning.tsx` inspects `window.phantom.solana` on mount and surfaces a dismissible banner explaining why Solflare/Backpack are required.
 - **No global state leakage** — wallet, employer, and employee Zustand stores are isolated; switching roles never carries auth state across.
 
 ---

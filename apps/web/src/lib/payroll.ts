@@ -90,36 +90,11 @@ export async function runPayroll(
     onProgress?.("Registration complete");
   }
 
-  // Intercept fetch to log all WASM / indexer / RPC requests for debugging
-  if (typeof window !== "undefined" && !(window as any).__stipendFetchHooked) {
-    (window as any).__stipendFetchHooked = true;
-    const origFetch = window.fetch;
-    window.fetch = async (...args: any[]) => {
-      const url = typeof args[0] === "string" ? args[0] : args[0]?.url;
-      if (url?.includes(".wasm") || url?.includes("zkey") || url?.includes("prover") || url?.includes("umbra")) {
-        console.log("[Stipend:fetch]", args[1]?.method || "GET", url);
-      }
-      try {
-        const res = await origFetch.apply(window, args as any);
-        if (url?.includes(".wasm") || url?.includes("zkey") || url?.includes("prover")) {
-          console.log("[Stipend:fetch] response", res.status, url);
-        }
-        return res;
-      } catch (e) {
-        console.error("[Stipend:fetch] error", url, e);
-        throw e;
-      }
-    };
-  }
-
-  console.log("[Stipend] Initializing zkProver for UTXO creation...");
   const zkProver = getCreateReceiverClaimableUtxoFromPublicBalanceProver();
-  console.log("[Stipend] zkProver:", zkProver);
   const createUtxo = getPublicBalanceToReceiverClaimableUtxoCreatorFunction(
     { client },
     { zkProver }
   );
-  console.log("[Stipend] createUtxo function ready");
 
   const runId = `PR-${Date.now().toString(36).toUpperCase()}`;
   const results: PayrollRunResult["employees"] = [];
@@ -136,13 +111,6 @@ export async function runPayroll(
           `Employee ${emp.name} is not registered with Umbra. They must register first.`
         );
       }
-
-      console.log("[Stipend] createUtxo params:", {
-        destinationAddress: emp.address,
-        mint,
-        amount: emp.salary,
-        amountType: typeof emp.salary,
-      });
 
       const result = await createUtxo({
         destinationAddress: emp.address as any,
@@ -172,18 +140,7 @@ export async function runPayroll(
 
       onProgress?.(`Paid ${emp.name} successfully.`);
     } catch (err: any) {
-      console.error("[Stipend] Full error object:", err);
-      console.error("[Stipend] Error name:", err?.name);
-      console.error("[Stipend] Error message:", err?.message);
-      console.error("[Stipend] Error cause:", err?.cause);
-      console.error("[Stipend] Error logs:", err?.logs);
-      console.error("[Stipend] Error stack:", err?.stack);
-      if (err?.transactionMessage) {
-        console.error("[Stipend] TX message:", err.transactionMessage);
-      }
-      if (err?.transaction) {
-        console.error("[Stipend] TX bytes:", err.transaction);
-      }
+      console.error("[Stipend] payroll error:", err?.message, err);
       results.push({
         address: emp.address,
         name: emp.name,

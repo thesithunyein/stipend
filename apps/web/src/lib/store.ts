@@ -1,8 +1,33 @@
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 import type { Wallet, WalletAccount } from "@wallet-standard/base";
 import type { UmbraClient } from "./umbra-client";
 import type { Employee, PayrollRunResult, PayrollManifest } from "./payroll";
 import type { ViewingKeyExport } from "./compliance";
+
+// ── BigInt-aware JSON storage ────────────────────────────────────────
+// Employees have BigInt salaries and payroll results have BigInt totals;
+// we serialize them with a "__bigint" marker so we can round-trip them.
+
+const BIGINT_TAG = "__bigint:";
+
+function replacer(_key: string, value: unknown) {
+  if (typeof value === "bigint") return BIGINT_TAG + value.toString();
+  return value;
+}
+
+function reviver(_key: string, value: unknown) {
+  if (typeof value === "string" && value.startsWith(BIGINT_TAG)) {
+    return BigInt(value.slice(BIGINT_TAG.length));
+  }
+  return value;
+}
+
+const bigintSafeStorage = () =>
+  createJSONStorage(() => localStorage, {
+    reviver,
+    replacer,
+  });
 
 // ── Wallet Store ─────────────────────────────────────────────────────
 
@@ -49,34 +74,49 @@ interface EmployerState {
   clearLogs: () => void;
 }
 
-export const useEmployerStore = create<EmployerState>((set) => ({
-  employees: [],
-  payrollRuns: [],
-  manifests: [],
-  viewingKeys: [],
-  isRunning: false,
-  progressLog: [],
-  addEmployee: (emp) =>
-    set((s) => ({ employees: [...s.employees, emp] })),
-  removeEmployee: (id) =>
-    set((s) => ({ employees: s.employees.filter((e) => e.id !== id) })),
-  updateEmployee: (id, updates) =>
-    set((s) => ({
-      employees: s.employees.map((e) =>
-        e.id === id ? { ...e, ...updates } : e
-      ),
-    })),
-  addPayrollRun: (run) =>
-    set((s) => ({ payrollRuns: [...s.payrollRuns, run] })),
-  addManifest: (manifest) =>
-    set((s) => ({ manifests: [...s.manifests, manifest] })),
-  addViewingKey: (vk) =>
-    set((s) => ({ viewingKeys: [...s.viewingKeys, vk] })),
-  setRunning: (running) => set({ isRunning: running }),
-  addLog: (msg) =>
-    set((s) => ({ progressLog: [...s.progressLog, msg] })),
-  clearLogs: () => set({ progressLog: [] }),
-}));
+export const useEmployerStore = create<EmployerState>()(
+  persist(
+    (set) => ({
+      employees: [],
+      payrollRuns: [],
+      manifests: [],
+      viewingKeys: [],
+      isRunning: false,
+      progressLog: [],
+      addEmployee: (emp) =>
+        set((s) => ({ employees: [...s.employees, emp] })),
+      removeEmployee: (id) =>
+        set((s) => ({ employees: s.employees.filter((e) => e.id !== id) })),
+      updateEmployee: (id, updates) =>
+        set((s) => ({
+          employees: s.employees.map((e) =>
+            e.id === id ? { ...e, ...updates } : e
+          ),
+        })),
+      addPayrollRun: (run) =>
+        set((s) => ({ payrollRuns: [...s.payrollRuns, run] })),
+      addManifest: (manifest) =>
+        set((s) => ({ manifests: [...s.manifests, manifest] })),
+      addViewingKey: (vk) =>
+        set((s) => ({ viewingKeys: [...s.viewingKeys, vk] })),
+      setRunning: (running) => set({ isRunning: running }),
+      addLog: (msg) =>
+        set((s) => ({ progressLog: [...s.progressLog, msg] })),
+      clearLogs: () => set({ progressLog: [] }),
+    }),
+    {
+      name: "stipend:employer",
+      storage: bigintSafeStorage(),
+      // isRunning / progressLog are transient
+      partialize: (s) => ({
+        employees: s.employees,
+        payrollRuns: s.payrollRuns,
+        manifests: s.manifests,
+        viewingKeys: s.viewingKeys,
+      }),
+    }
+  )
+);
 
 // ── Employee Store ───────────────────────────────────────────────────
 
