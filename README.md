@@ -5,7 +5,7 @@
 Stipend is a production-grade private payroll dApp built on the [Umbra Privacy SDK](https://sdk.umbraprivacy.com). Employers pay employees through Umbra's encrypted mixer pool: amounts are confidential, sender ↔ recipient links are broken, and compliance is preserved through scoped viewing keys that employers can hand to auditors at any granularity (daily, monthly, yearly, per-mint, or master).
 
 **Live demo:** https://stipend-ten.vercel.app
-**Demo video:** _(link goes here after recording)_
+**Demo video:** https://youtu.be/K-TFGMqlVig
 **Hackathon:** Umbra SDK Hackathon 2026
 
 ---
