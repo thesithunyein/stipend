@@ -188,7 +188,7 @@ export default function Home() {
       <footer className="border-t border-[#1E1E20] max-w-[1200px] mx-auto px-6 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-[#6B6F76]">
-            Built for the Umbra SDK Hackathon 2025
+            Built for the Umbra SDK Hackathon 2026
           </p>
           <div className="flex items-center gap-6 text-sm">
             <a href="https://github.com/thesithunyein/stipend" target="_blank" rel="noopener noreferrer" className="text-[#6B6F76] hover:text-[#B5B5B5] transition-colors duration-150">
