@@ -150,12 +150,16 @@ export async function runPayroll(
         amount: emp.salary as any,
       });
 
-      const txSig =
-        typeof result === "object" && result !== null
-          ? (result as any).signatures?.[0] ||
-            (result as any).queueSignature ||
-            JSON.stringify(result)
-          : String(result);
+      // Umbra returns CreateUtxoFromPublicBalanceResult with multiple sigs;
+      // prefer the finalized MPC callback, then queue, then proof account create.
+      const r = result as any;
+      const txSig: string =
+        (typeof r === "string" && r) ||
+        r?.callbackSignature ||
+        r?.queueSignature ||
+        r?.createProofAccountSignature ||
+        r?.signatures?.[0] ||
+        "";
 
       results.push({
         address: emp.address,
