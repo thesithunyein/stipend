@@ -234,7 +234,7 @@ export async function scanForPayments(client: UmbraClient) {
   }
 
   const scan = getClaimableUtxoScannerFunction({ client });
-  const result = await scan(0 as any, 0 as any);
+  const result = await scan(0n as any, 0n as any);
 
   return {
     received: result.received || [],
