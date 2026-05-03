@@ -6,7 +6,6 @@ import {
   getReceiverClaimableUtxoToEncryptedBalanceClaimerFunction,
   getEncryptedBalanceToPublicBalanceDirectWithdrawerFunction,
   getUmbraRelayer,
-  getEncryptedBalanceClaimRelayerForwarderFunction,
 } from "@umbra-privacy/sdk";
 import {
   getUserRegistrationProver,
@@ -263,11 +262,16 @@ export async function claimPayments(
 
   const zkProver = getClaimReceiverClaimableUtxoIntoEncryptedBalanceProver();
   const relayer = getUmbraRelayer({ apiEndpoint: UMBRA_RELAYER });
-  const submitClaimFunction = getEncryptedBalanceClaimRelayerForwarderFunction({ relayer } as any);
 
+  // SDK impl reads deps.relayer.{submitClaim,pollClaimStatus,getRelayerAddress}
+  // and deps.fetchBatchMerkleProof (no default fallback) — pull from client.
   const claim = getReceiverClaimableUtxoToEncryptedBalanceClaimerFunction(
     { client },
-    { zkProver, submitClaimFunction } as any
+    {
+      zkProver,
+      relayer,
+      fetchBatchMerkleProof: (client as any).fetchBatchMerkleProof,
+    } as any
   );
 
   const result = await claim(utxos);
