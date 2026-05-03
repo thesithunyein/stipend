@@ -6,11 +6,12 @@ import {
   getReceiverClaimableUtxoToEncryptedBalanceClaimerFunction,
   getEncryptedBalanceToPublicBalanceDirectWithdrawerFunction,
   getUmbraRelayer,
+  getEncryptedBalanceClaimRelayerForwarderFunction,
 } from "@umbra-privacy/sdk";
 import {
   getUserRegistrationProver,
   getCreateReceiverClaimableUtxoFromPublicBalanceProver,
-  getReceiverClaimableUtxoToEncryptedBalanceClaimerProver,
+  getClaimReceiverClaimableUtxoIntoEncryptedBalanceProver,
 } from "@umbra-privacy/web-zk-prover";
 import type { UmbraClient } from "./umbra-client";
 import { UMBRA_RELAYER, PAYROLL_MINT } from "./constants";
@@ -260,12 +261,13 @@ export async function claimPayments(
     await registerUser(client);
   }
 
-  const zkProver = getReceiverClaimableUtxoToEncryptedBalanceClaimerProver();
+  const zkProver = getClaimReceiverClaimableUtxoIntoEncryptedBalanceProver();
   const relayer = getUmbraRelayer({ apiEndpoint: UMBRA_RELAYER });
+  const submitClaimFunction = getEncryptedBalanceClaimRelayerForwarderFunction({ relayer } as any);
 
   const claim = getReceiverClaimableUtxoToEncryptedBalanceClaimerFunction(
     { client },
-    { zkProver, relayer } as any
+    { zkProver, submitClaimFunction } as any
   );
 
   const result = await claim(utxos);
