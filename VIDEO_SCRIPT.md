@@ -1,50 +1,107 @@
-# Video Script (Read this while recording)
+# Stipend — Demo Video Script
 
-## Intro (30 seconds)
-
-"Hi, I'm [your name] and this is Stipend — a private payroll application built on the Umbra Privacy SDK for the Umbra Hackathon 2026. Stipend allows employers to pay employees confidentially through Umbra's mixer pool, so salaries are encrypted and transfers are unlinkable on-chain."
-
-## Wallet Connection (45 seconds)
-
-"Let me start by connecting my wallet. I'll click 'Connect Wallet' and select Phantom. You can see the wallet is now connected in the navbar. We use Wallet Standard, so this works with Phantom, Backpack, and Solflare."
-
-## Employer Registration (60 seconds)
-
-"Now I'll navigate to the employer dashboard to register with Umbra. I'll click 'Register with Umbra.' This creates an encrypted user account with an X25519 key for confidential transfers and a user commitment for the mixer. I'll approve the signing prompt in Phantom. Great — 'Registered with Umbra successfully.' This proves our Umbra SDK integration is correct — registration works flawlessly."
-
-## Employer Dashboard (45 seconds)
-
-"Here's the employer dashboard. I can add employees, manage the payroll list, and export viewing keys. Let me add a test employee — name 'Aung', address, and salary of 1000. You can see the employee is now in the list. When payroll runs, it creates receiver-claimable UTXOs through the mixer."
-
-## Viewing Key Export (30 seconds)
-
-"Scrolling down to the Viewing Keys section, I can derive scoped viewing keys for auditors. I'll select 'Monthly' scope and click 'Derive Key.' This generates a viewing key that lets auditors see only what's granted — daily, monthly, yearly, mint, or master keys."
-
-## Employee Dashboard (30 seconds)
-
-"Now let me show the employee dashboard. Employees scan for payments, claim UTXOs, and withdraw to public wallet. Registration works here too — same Umbra SDK integration as the employer."
-
-## Auditor Dashboard (30 seconds)
-
-"Finally, the auditor dashboard. Auditors load audit packages, verify transactions on-chain, and export CSV reports. This provides the compliance tooling infrastructure for regulated businesses."
-
-## Technical Quality (30 seconds)
-
-"The app uses Next.js 14, Umbra SDK, Wallet Standard, TailwindCSS, and Zustand. We fixed ZK prover function names, added registration checks, and switched to Helius RPC for reliability. The UI is clean and modern."
-
-## Devnet Issue (45 seconds)
-
-"Unfortunately, Umbra devnet has an issue with UTXO creation. Transaction simulation fails with error -32002 even with SOL, USDC, and Helius RPC. I've documented this in DEVNET_ISSUE.md with 7 troubleshooting attempts. I contacted Umbra support on X for assistance. Registration works perfectly — the issue is specific to UTXO creation, not our SDK integration."
-
-## Conclusion (30 seconds)
-
-"Stipend demonstrates correct Umbra SDK integration, proper ZK prover usage, and well-designed UI/UX. Check out the repo at github.com/thesithunyein/stipend. Looking forward to Umbra's response on the devnet issue so we can demonstrate the full payroll flow. Thanks for watching!"
+**Target length:** 3–4 minutes
+**Tools:** Solflare wallet (Phantom is incompatible — see note), Solflare on Devnet, devnet dUSDC from `https://faucet.umbraprivacy.com`
 
 ---
 
-## Tips for Recording
-- Speak clearly and at a moderate pace
-- Pause slightly between sections
-- Use your cursor to highlight UI elements as you mention them
-- Keep the video under 5 minutes
-- Test your audio before recording
+## Pre-recording checklist
+
+1. Solflare on **Devnet**, employer wallet has SOL + dUSDC, employee wallet has SOL
+2. Both wallets registered with Umbra (do this off-camera or skip showing it)
+3. Open https://stipend-ten.vercel.app — clean browser tab, hide bookmarks
+4. Have employee wallet address copied: `AXssUZdJNfhjCXsA8e17WcvwqrdDXqzaR1vJPZBYmWeF`
+5. Have devnet Solscan ready in another tab
+
+---
+
+## Step 1 — Intro (0:00–0:25)
+
+**Show:** Landing page at `/`
+
+> "Hi, I'm Sithu. This is **Stipend** — confidential payroll on Solana, built with the Umbra Privacy SDK. Employers pay salaries that are encrypted and unlinkable on-chain, while auditors keep full compliance access via scoped viewing keys. Everything runs live on Solana devnet right now. Let me show you."
+
+---
+
+## Step 2 — Connect employer wallet (0:25–0:45)
+
+**Show:** Click **Connect Wallet** in navbar → pick **Solflare** → approve.
+
+> "I'm connecting Solflare here. Stipend uses Wallet Standard, so it works with Solflare, Backpack, and any other compliant wallet."
+
+---
+
+## Step 3 — Employer dashboard: add employee + run payroll (0:45–1:40)
+
+**Show:** Navigate to **Employer**.
+
+> "This is the employer dashboard. I'll add an employee — paste their devnet address, name them 'John', salary 1 USDC."
+
+**Action:** Add employee → click **Run Payroll** → approve Solflare signature(s).
+
+> "Behind the scenes, Stipend is calling Umbra's `getPublicBalanceToReceiverClaimableUtxoCreatorFunction` — it generates a Groth16 ZK proof in the browser via the web-zk-prover, queues the Arcium MPC computation, and submits the transaction. The amount and the recipient's identity inside the mixer pool are encrypted."
+
+**Show:** Success toast + new entry in Recent Runs.
+
+---
+
+## Step 4 — Export Viewing Key (1:40–2:00)
+
+**Show:** Scroll to **Viewing Keys** section → select **Monthly** scope → click **Export Viewing Key**.
+
+> "Now I'll derive a monthly viewing key — this is the audit package an employer hands to a regulator. Stipend supports five scopes: master, mint, yearly, monthly, and daily — so disclosure stays minimal."
+
+**Action:** JSON file downloads.
+
+---
+
+## Step 5 — Employee dashboard: scan + claim + withdraw (2:00–2:50)
+
+**Show:** Disconnect → connect employee Solflare → navigate to **Employee**.
+
+> "Switching to the employee. I click **Scan for Payments** — this scans the Umbra mixer tree using my private viewing key."
+
+**Action:** Click Scan → "Found 1 claimable payment" toast → 1 USDC entry appears.
+
+> "Found it. Now I claim — this generates a second ZK proof to move the UTXO into my encrypted balance. The relayer pays gas, so my main wallet never appears as fee payer on-chain."
+
+**Action:** Click **Claim** → approve → success toast.
+
+> "And finally I'll withdraw 1 USDC from the encrypted balance into my public wallet."
+
+**Action:** Enter `1` → click **Withdraw** → approve → success toast.
+
+---
+
+## Step 6 — Auditor dashboard (2:50–3:30)
+
+**Show:** Navigate to **Auditor**.
+
+> "Last piece — the auditor view. No wallet connection needed. I upload the audit package the employer just exported."
+
+**Action:** Upload JSON → manifest preview appears → click **Verify All Transactions**.
+
+> "Stipend pulls the transaction signatures from the manifest, verifies each one against the Solana RPC, and produces a report. One out of one verified on-chain."
+
+**Action:** Click the Solscan icon on the row → switches to Solscan devnet.
+
+> "And there's the actual transaction on Solscan devnet — signed by my employer wallet, interacting with the Umbra program. Real on-chain proof."
+
+---
+
+## Step 7 — Wrap (3:30–4:00)
+
+**Show:** Back to landing page or GitHub repo.
+
+> "Stipend ships a complete confidential payroll workflow on Umbra: registration, payroll, claim, withdraw, and auditor verification — all on devnet, all using the real Umbra SDK with no mocks. Repo is at github.com/thesithunyein/stipend, live demo at stipend-ten.vercel.app. Thanks for watching."
+
+---
+
+## Important notes for recording
+
+- **Use Solflare, not Phantom.** Phantom modifies transactions post-sign and breaks Umbra signature verification (error #7050012). The Umbra team is aware. README documents this.
+- Keep employer and employee on **separate Solflare profiles** or import both seeds into one Solflare with account switcher.
+- If Umbra faucet shows cooldown, employer must wait — schedule recording around faucet availability.
+- Pre-register both wallets before recording so you don't burn airtime on registration prompts.
+- Speak at a moderate pace. Cursor-highlight every UI element as you mention it.
+- Aim for under 4 minutes total.
